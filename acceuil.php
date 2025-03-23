@@ -39,7 +39,7 @@ session_start(); // démarrage de la session
                             <a href="#products" class="nav-link">Boutique</a>
                         </li>
                         <li class="nav-item">
-                            <a href="faq.php" class="nav-link" target='_BLANK'>A propos</a>
+                            <a href="apropos.php" class="nav-link" target='_BLANK'>A propos</a>
                         </li>
                         <li class="nav-item">
                             <a href="contact.php" class="nav-link" target='_BLANK'>Contact</a>
@@ -65,10 +65,9 @@ session_start(); // démarrage de la session
                         Jusqu'à
                         <span class="couleur">15%<br>
                             de réduction</span>
-                        sur<br>
-                        nos offre de la semaine
+                        sur nos offre de la semaine
                     </h1>
-                    <h5>Du 01 avril au 30 avril</h5>
+                    <h5>Du 26 mars au 21 juin</h5>
                     <a href="#products" class="btn">Découvrir</a>
                 </div>
                 <div class="droite">
