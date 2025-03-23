@@ -10,6 +10,7 @@ session_start(); // démarrage de la session
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <link rel="icon" href="img/logo.png" type="image/x-icon">
     <title>Time us</title>
@@ -30,9 +31,6 @@ session_start(); // démarrage de la session
                     <a href="#"><span>Time</span> us</a>
                 </div>
                 <div class="menu">
-                    <div class="top">
-                        <span class="fermer">Fermer <i class='bx bx-x'></i></span>
-                    </div>
                     <ul class="nav-list d-flex">
                         <li class="nav-item">
                             <a href="#" class="nav-link">Accueil</a>
@@ -159,6 +157,35 @@ session_start(); // démarrage de la session
             }
         });
     </script>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>TIME us</h3>
+                <p>Votre boutique en ligne pour tous vos besoins technologiques. Nous proposons une large gamme de
+                    produits de qualité à des prix compétitifs.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Liens Rapides</h3>
+                <ul class="footer-links">
+                    <li><a href="acceuil.php">Accueil</a></li>
+                    <li><a href="login.php">Connexion</a></li>
+                    <li><a href="#">À propos</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Nous Contacter</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-envelope"></i> contact@timeus.com</li>
+                    <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Rue du Commerce, Paris</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; <?php echo date('Y'); ?> TIME us. Tous droits réservés. | Réalisé par CHERIEF Yacine-Samy
+        </div>
+    </footer>
 </body>
 
 </html>
