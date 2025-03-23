@@ -12,7 +12,7 @@ session_start(); // démarrage de la session
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <link rel="icon" href="img/logo.png" type="image/x-icon">
-    <title>Swatch Connect</title>
+    <title>Time Shop</title>
 </head>
 
 <body>
@@ -27,7 +27,7 @@ session_start(); // démarrage de la session
                     <i class='bx bx-menu'></i>
                 </div>
                 <div class="logo">
-                    <a href="#"><span>AS</span> Shop</a>
+                    <a href="#"><span>TM</span> Shop</a>
                 </div>
                 <div class="menu">
                     <div class="top">
