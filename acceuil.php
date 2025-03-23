@@ -17,7 +17,7 @@ session_start(); // démarrage de la session
 
 <body>
     <div class="promo">
-        <span>Promo de 15% avec le code : Dauphine15</span>
+        <span>Promo de 15% avec le code : DAUPHINE15</span>
     </div>
 
     <header class="header">
