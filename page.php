@@ -16,8 +16,8 @@ $product_id = $_GET["id"];
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" type="text/css" href="styles/style.css">
-    <link rel="stylesheet" type="text/css" href="styles/page.css">
+    <link rel="stylesheet" type="text/css" href="styles/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="styles/page.css?v=<?php echo time(); ?>">
     <link rel="icon" href="img/logo.png" type="image/x-icon">
     <title>TIME us - <?php
     // Récupération du nom du produit à partir de la base de données en fonction de son ID
