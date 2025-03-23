@@ -12,12 +12,12 @@ session_start(); // démarrage de la session
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <link rel="icon" href="img/logo.png" type="image/x-icon">
-    <title>Time Shop</title>
+    <title>Time us</title>
 </head>
 
 <body>
     <div class="promo">
-        <span>Promo de 15% de Réduction avec le code : Dauphine15</span>
+        <span>Promo de 15% avec le code : Dauphine15</span>
     </div>
 
     <header class="header">
@@ -27,7 +27,7 @@ session_start(); // démarrage de la session
                     <i class='bx bx-menu'></i>
                 </div>
                 <div class="logo">
-                    <a href="#"><span>TM</span> Shop</a>
+                    <a href="#"><span>Time</span> us</a>
                 </div>
                 <div class="menu">
                     <div class="top">
@@ -81,7 +81,7 @@ session_start(); // démarrage de la session
     </header>
 
     <section id="products" class="products"> <!-- Section pour afficher les produits -->
-        <h1 class="title">Dernier arrivage</h1> <!-- Titre de la section -->
+        <h1 class="title">Nos Produits</h1> <!-- Titre de la section -->
         <div class="box-container"> <!-- Conteneur pour les boîtes de produits -->
 
             <?php
