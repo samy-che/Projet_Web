@@ -168,8 +168,8 @@ session_start(); // démarrage de la session
                 <ul class="footer-links">
                     <li><a href="acceuil.php">Accueil</a></li>
                     <li><a href="login.php">Connexion</a></li>
-                    <li><a href="#">À propos</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="apropos.php">À propos</a></li>
+                    <li><a href="contact.php">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-column">
@@ -177,7 +177,7 @@ session_start(); // démarrage de la session
                 <ul class="footer-links">
                     <li><i class="fas fa-envelope"></i> contact@timeus.com</li>
                     <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
-                    <li><i class="fas fa-map-marker-alt"></i> 123 Rue du Commerce, Paris</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 25 Rue Dauphine, Paris</li>
                 </ul>
             </div>
         </div>
