@@ -92,36 +92,6 @@ if (isset($_POST['submit'])) { // Vérifie si le formulaire a été soumis
         </form>
     </div>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>TIME us</h3>
-                <p>Votre boutique en ligne pour tous vos besoins technologiques. Nous proposons une large gamme de
-                    produits de qualité à des prix compétitifs.</p>
-            </div>
-            <div class="footer-column">
-                <h3>Liens Rapides</h3>
-                <ul class="footer-links">
-                    <li><a href="accueil.php">Accueil</a></li>
-                    <li><a href="login.php">Connexion</a></li>
-                    <li><a href="apropos.php">À propos</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Nous Contacter</h3>
-                <ul class="footer-links">
-                    <li><i class="fas fa-envelope"></i> contact@timeus.com</li>
-                    <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
-                    <li><i class="fas fa-map-marker-alt"></i> 25 Rue Dauphine, Paris</li>
-                </ul>
-            </div>
-        </div>
-        <div class="copyright">
-            &copy; <?php echo date('Y'); ?> TIME us. Tous droits réservés. | Réalisé par CHERIEF Yacine-Samy
-        </div>
-    </footer>
-
 </body>
 
 </html>
