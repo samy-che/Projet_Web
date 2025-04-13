@@ -158,8 +158,6 @@
             &copy; <?php echo date('Y'); ?> TIME us. Tous droits réservés. | Réalisé par CHERIEF Yacine-Samy
         </div>
     </footer>
-
-    <script src="js/script.js"></script>
 </body>
 
 </html>

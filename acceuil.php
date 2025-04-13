@@ -1,7 +1,7 @@
 <?php
+session_start(); // démarrage de la session
 
 include 'connexion.php'; // 
-session_start(); // démarrage de la session
 ?>
 
 <!DOCTYPE html>
