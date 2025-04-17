@@ -39,18 +39,18 @@ include 'connexion.php'; //
                             <a href="#products" class="nav-link">Boutique</a>
                         </li>
                         <li class="nav-item">
-                            <a href="apropos.php" class="nav-link" target='_BLANK'>A propos</a>
+                            <a href="apropos.php" class="nav-link" target="_blank" rel="noopener noreferrer">À
+                                propos</a>
                         </li>
                         <li class="nav-item">
-                            <a href="contact.php" class="nav-link" target='_BLANK'>Contact</a>
+                            <a href="contact.php" class="nav-link" target="_blank" rel="noopener noreferrer">Contact</a>
                         </li>
                     </ul>
                 </div>
                 <div class="icons d-flex">
-
-                    <div><a href="login.php"><i class='bx bx-user'></i></a></div>
+                    <div><a href="login.php"><i class='bx bx-user' aria-label="Connexion utilisateur"></i></a></div>
                     <div>
-                        <i class='bx bx-shopping-bag'></i>
+                        <i class='bx bx-shopping-bag' aria-label="Panier d'achat"></i>
                     </div>
                 </div>
             </div>
@@ -82,7 +82,9 @@ include 'connexion.php'; //
         <div class="box-container"> <!-- Conteneur pour les boîtes de produits -->
 
             <?php
-            $select_product = mysqli_query($conn, "SELECT * FROM `products` ") or die("Erreur de requête"); // Requête pour récupérer les produits depuis la base de données
+            $stmt = mysqli_prepare($conn, "SELECT * FROM `products`");
+            mysqli_stmt_execute($stmt);
+            $select_product = mysqli_stmt_get_result($stmt); // Requête préparée pour plus de sécurité
             if (mysqli_num_rows($select_product) > 0) { // Vérifie s'il y a des produits dans la base de données
                 while ($fetch_product = mysqli_fetch_assoc($select_product)) { // Boucle pour parcourir tous les produits
                     ?>
@@ -113,7 +115,8 @@ include 'connexion.php'; //
                                 }
                                 ?>
                             </div>
-                            <input type="number" name="product_quantity" min="1" value="1">
+                            <input type="number" name="product_quantity" min="1" max="<?php echo $fetch_product['quantity']; ?>"
+                                value="1" required>
                             <!-- Champ pour saisir la quantité du produit -->
                             <input type="hidden" name="product_image" value="<?php echo $fetch_product['image']; ?>">
                             <!-- Champ caché pour l'image du produit -->
