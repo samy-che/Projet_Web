@@ -24,9 +24,6 @@ include 'connexion.php'; //
     <header class="header">
         <nav class="nav container">
             <div class="navigation d-flex">
-                <div class="icon1">
-                    <i class='bx bx-menu'></i>
-                </div>
                 <div class="logo">
                     <a href="#"><span>Time</span> us</a>
                 </div>
