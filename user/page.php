@@ -131,10 +131,10 @@ if (isset($_GET['commentaireid'])) {
                 <div class="icons d-flex">
                     <div class="username"><a href="profil.php"><?php echo $fetch_user['name']; ?></a></div>
                     <div>
-                        <a href="card.php" title="Panier"><i class='bx bx-shopping-bag'></i></a>
+                        <a href="panier.php" title="Panier"><i class='bx bx-shopping-bag'></i></a>
                     </div>
                     <div>
-                        <a class="delete-btn" href="../index.php?logout=<?php echo $user_id; ?>"
+                        <a class="delete-btn" href="../acceuil.php?logout=<?php echo $user_id; ?>"
                             onclick="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?');">Déconnexion</a>
                     </div>
                 </div>
@@ -321,7 +321,7 @@ if (isset($_GET['commentaireid'])) {
         </div>
     </footer>
 
-    <script src="../script/page.js"></script>
+    <script src="../script/user/page.js"></script>
 </body>
 
 </html>

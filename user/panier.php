@@ -3,7 +3,14 @@
 include 'connexion.php'; // Inclut le fichier de connexion à la base de données
 session_start(); // Démarre la session PHP
 
-$user_id = $_SESSION['user_id']; // Récupère l'ID de l'utilisateur à partir de la session
+// Vérification si l'utilisateur est connecté
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id']; // Récupère l'ID de l'utilisateur à partir de la session
+} else {
+    // Redirection vers la page de connexion si l'utilisateur n'est pas connecté
+    header('location:../login.php');
+    exit();
+}
 
 if (isset($_GET['logout'])) { // Vérifie si le paramètre 'logout' est présent dans l'URL
     unset($user_id); // Supprime la variable 'user_id'
@@ -88,7 +95,6 @@ if (isset($_GET['delete_all'])) { // Vérifie si le paramètre 'delete_all' est 
 
     <header class="header">
         <nav class="nav container">
-
             <div class="navigation d-flex">
                 <div class="icon1">
                     <i class='bx bx-menu'></i>
@@ -101,27 +107,26 @@ if (isset($_GET['delete_all'])) { // Vérifie si le paramètre 'delete_all' est 
                         <span class="fermer">Fermer <i class='bx bx-x'></i></span>
                     </div>
                     <ul class="nav-list d-flex">
+                        <li class="nav-item"></li>
                         <li class="nav-item">
-
-                        </li>
-                        <li class="nav-item">
-                            <a href="acceuil2.php" class="nav-link">Retour</a>
+                            <a href="acceuil2.php" class="nav-link" style="font-size: 1.6rem;">Retour</a>
                         </li>
                     </ul>
                 </div>
                 <div class="icons d-flex">
-                    <div class="username"><a href="profil.php" target='_BLANK'><?php echo $fetch_user['name']; ?></a>
+                    <div class="username">
+                        <a href="profil.php" target='_BLANK'
+                            style="font-size: 1.6rem;"><?php echo $fetch_user['name']; ?></a>
                     </div>
                     <div>
-                        <a href="panier.php"><i class='bx bx-shopping-bag'></i></a>
+                        <a href="panier.php" style="font-size: 1.6rem;"><i class='bx bx-shopping-bag'></i></a>
                     </div>
                     <div>
-                        <a class="delete-btn" href="../index.php?logout=<?php echo $user_id; ?>"
+                        <a class="delete-btn" href="../acceuil.php?logout=<?php echo $user_id; ?>"
                             onclick="return confirm('Es-tu sûr de te déconnecter ?');">Déconnexion</a>
                     </div>
                 </div>
             </div>
-
         </nav>
         <div class="shopping-cart">
             <h1 class="title">Panier</h1>
@@ -185,7 +190,7 @@ if (isset($_GET['delete_all'])) { // Vérifie si le paramètre 'delete_all' est 
 
                         if (isset($_POST["CodePromo"])) { // Vérifie si un code promo a été soumis
                             $CodePromo = strtoupper($_POST["CodePromo"]); // Convertit le code promo en majuscules
-                            if ($CodePromo == "PARIS1") { // Vérifie si le code promo est valide
+                            if ($CodePromo == "DAUPHINE15") { // Vérifie si le code promo est valide
                                 $code_promo_applique = true;
                                 $total = $total * 0.85; // Applique une réduction de 15% sur le total
                                 $montant_promo = $total_avant_promo - $total; // Calcul du montant de la promotion

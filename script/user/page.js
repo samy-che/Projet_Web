@@ -1,6 +1,6 @@
-// Animation pour les éléments au chargement de la page
+// Animation pour les u00e9lu00e9ments au chargement de la page
 document.addEventListener("DOMContentLoaded", function () {
-  // Animer les éléments principaux
+  // Animer les u00e9lu00e9ments principaux
   const productCard = document.querySelector(".product-card");
   const reviewCards = document.querySelectorAll(".review-card");
 
@@ -20,26 +20,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  if (window.location.pathname.includes("page.php")) {
-    let cartIcon = document.querySelector(".bx-shopping-bag");
-    if (cartIcon) {
-      cartIcon.parentElement.addEventListener("click", function (e) {
-        e.preventDefault();
-        showNotification("Vous devez d'abord vous connecter !");
-      });
-    }
-
-    let addToCartBtn = document.querySelector(".add-to-cart-btn");
-    if (addToCartBtn) {
-      addToCartBtn.addEventListener("click", function (e) {
-        e.preventDefault();
-        showNotification("Vous devez d'abord vous connecter !");
-      });
-    }
-  }
+  // Aucun code de blocage pour les utilisateurs connectu00e9s
+  // Les liens vers le panier et le bouton d'ajout au panier fonctionnent normalement
 });
 
-// Fonction pour afficher une notification stylisée
+// Fonction pour afficher une notification stylu00e9e (conservu00e9e pour une utilisation u00e9ventuelle)
 function showNotification(message) {
   const notification = document.createElement("div");
   notification.className = "notification";
@@ -53,12 +38,12 @@ function showNotification(message) {
 
   document.body.appendChild(notification);
 
-  // Animation d'entrée
+  // Animation d'entru00e9e
   setTimeout(() => {
     notification.classList.add("show");
   }, 10);
 
-  // Fermeture automatique après 5 secondes
+  // Fermeture automatique apru00e8s 5 secondes
   setTimeout(() => {
     notification.classList.remove("show");
     setTimeout(() => {
