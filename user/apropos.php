@@ -1,164 +1,162 @@
-<?php
-
-include 'connexion.php'; // Inclut le fichier de connexion à la base de données
-session_start(); // Démarre la session PHP pour maintenir l'état de l'utilisateur
-
-$user_id = $_SESSION['user_id']; // Récupère l'ID de l'utilisateur à partir de la session
-
-if (isset($_GET['logout'])) { // Vérifie si le paramètre GET 'logout' est défini
-    unset($user_id); // Supprime l'ID de l'utilisateur
-    session_destroy(); // Détruit la session
-    header('location:index.php'); // Redirige vers la page d'accueil
-}
-;
-
-$select_user = mysqli_query($conn, "SELECT * FROM `user_form` WHERE ID = '$user_id'") or die("Erreur de requête"); // Exécute la requête SQL pour sélectionner l'utilisateur en fonction de son ID
-if (mysqli_num_rows($select_user) > 0) { // Vérifie s'il y a des lignes dans le résultat de la requête
-    $fetch_user = mysqli_fetch_assoc($select_user); // Récupère les données de l'utilisateur
-}
-;
-
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="icon" href="../img/logo.png" type="image/x-icon">
-    <title>AS Shop - FAQ</title>
+    <link rel="icon" href="img/logo.png" type="image/x-icon">
+    <title>A propos</title>
 </head>
 
 <body>
 
     <header class="header">
         <nav class="nav container">
-
             <div class="navigation d-flex">
-                <div class="icon1">
-                    <i class='bx bx-menu'></i>
-                </div>
                 <div class="logo">
-                    <a href="#"><span>AS</span> Shop</a>
+                    <a href="acceuil2.php"><span>Time</span> us</a>
                 </div>
                 <div class="menu">
-                    <div class="top">
-                        <span class="fermer">Fermer <i class='bx bx-x'></i></span>
-                    </div>
                     <ul class="nav-list d-flex">
                         <li class="nav-item">
-
+                            <a href="acceuil2.php" class="nav-link">Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a href="index2.php" class="nav-link">Retour</a>
+                            <a href="acceuil2.php#products" class="nav-link">Boutique</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">A propos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="contact.php" target="_BLANK" class="nav-link">Contact</a>
                         </li>
                     </ul>
                 </div>
-                <div class="icons d-flex">
-                    <div class="username"><a href="profil.php" target='_BLANK'><?php echo $fetch_user['name']; ?></a>
-                    </div>
-                    <div>
-                        <a href="card.php"><i class='bx bx-shopping-bag'></i></a>
-                        <!-- <span class = "align-center">0</span> -->
-                    </div>
-                    <div>
-                        <a class="delete-btn" href="../index.php?logout=<?php echo $user_id; ?>"
-                            onclick="return confirm('Es-tu sûr de te déconnecter ?');">Déconnexion</a>
-                    </div>
-                </div>
             </div>
-
         </nav>
+    </header>
 
-
-        <header class="section service">
-            <div class="service-center container">
-
-                <div class="service">
-                    <span class="icon">
-                        <div><i class='bx bx-purchase-tag'></i></div>
-                    </span>
-                    <h4>Livraison gratuite</h4>
-                    <span class="text">Commande supérieur à partir de 1000€</span>
-                </div>
-
-                <div class="service">
-                    <span class="icon">
-                        <div><i class='bx bx-lock'></i></div>
-                    </span>
-                    <h4>Paiement sécurisé</h4>
-                    <span class="text">Moyens de paiement populaires</span>
-                </div>
-
-                <div class="service">
-                    <span class="icon">
-                        <div><i class='bx bxs-left-arrow-circle'></i></div>
-                    </span>
-                    <h4>30 Jours pour retour</h4>
-                    <span class="text">Produit 100% garantie</span>
-                </div>
-
-                <div class="service">
-                    <span class="icon">
-                        <div><i class='bx bx-headphone'></i></div>
-                    </span>
-                    <h4>24/7 Support</h4>
-                    <span class="text">Assistance Client</span>
-                </div>
-
-
+    <section class="section service">
+        <div class="service-center container">
+            <div class="service">
+                <span class="icon">
+                    <div><i class='bx bx-purchase-tag'></i></div>
+                </span>
+                <h4>Livraison gratuite</h4>
+                <span class="text">Commande supérieure à partir de 100€</span>
             </div>
-        </header>
 
-        <div class="propos">
-            <h1>A propos de nous</h1>
-            <p>
+            <div class="service">
+                <span class="icon">
+                    <div><i class='bx bx-lock'></i></div>
+                </span>
+                <h4>Paiement sécurisé</h4>
+                <span class="text">Moyens de paiement divers</span>
+            </div>
 
-                Bonjour à tous ! Nous sommes <b class="Prenom">Alexandre et Bader</b>, deux passionnés de l'informatique
-                et des nouvelles technologies. Aujourd'hui, nous sommes ravis de vous présenter notre projet qui
-                s'inscrit dans <b class="Prenom">le monde en constante évolution des ordinateurs et de la
-                    technologie</b>.<br /><br />
+            <div class="service">
+                <span class="icon">
+                    <div><i class='bx bxs-left-arrow-circle'></i></div>
+                </span>
+                <h4>14 Jours pour retour</h4>
+                <span class="text">Produits 100% garantis</span>
+            </div>
 
-                Nous avons choisi d'explorer ce domaine fascinant en raison de sa prédominance croissante dans <b
-                    class="Prenom">notre quotidien</b>. En effet, l'impact des ordinateurs sur nos vies est de plus en
-                plus marqué, que ce soit dans nos foyers, nos lieux de travail ou même dans nos loisirs. Avec
-                l'avènement de <b class="Prenom">l'Internet des objets</b>, de <b class="Prenom">l'intelligence
-                    artificielle et de la réalité virtuelle</b>, l'importance des ordinateurs et des dispositifs
-                informatiques <b class="Prenom">ne cesse de croître</b>.<br /><br />
-
-                Dans les années à venir, nous anticipons une valorisation croissante des plateformes de commerce
-                électronique spécialisées dans la vente d'ordinateurs. La demande pour ces produits ne cesse
-                d'augmenter, que ce soit pour les particuliers à la recherche d'équipements performants ou pour les
-                entreprises souhaitant renouveler leur parc informatique.<br /><br />
-
-                De plus, étant tous deux engagés dans des études et des carrières en informatique, nous nous sentons
-                particulièrement concernés par cette thématique. <b class="Prenom">Notre passion</b> pour ce domaine
-                nous pousse à explorer les dernières avancées technologiques et à les rendre <b
-                    class="Prenom">accessibles à un large public.</b><br /><br />
-
-                Ainsi, à travers ce projet, nous aspirons à <b class="Prenom">créer une plateforme de commerce
-                    électronique</b> qui offre non seulement <b class="Prenom">une large gamme d'ordinateurs et
-                    d'accessoires</b>, mais aussi une <b class="Prenom">expérience utilisateur exceptionnelle</b>. Notre
-                objectif est de fournir des produits de <b class="Prenom">qualité</b>, <b class="Prenom">des conseils
-                    personnalisés</b> et <b class="Prenom">un service clientèle attentif</b> pour répondre aux besoins
-                divers et variés de notre clientèle.<br /><br />
-
-                Nous sommes <b class="Prenom">impatients</b> de partager cette aventure avec vous et de vous accompagner
-                dans l'univers passionnant des ordinateurs et de la technologie. Restez <b class="Prenom">connectés</b>
-                pour découvrir toutes les nouveautés que nous avons en réserve !
-
-
-            </p>
+            <div class="service">
+                <span class="icon">
+                    <div><i class='bx bx-headphone'></i></div>
+                </span>
+                <h4>24/7 Support</h4>
+                <span class="text">Assistance Client</span>
+            </div>
         </div>
+    </section>
+
+    <main>
+        <section class="about-section container">
+            <div class="title">
+                <h1>Notre Histoire</h1>
+            </div>
+
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Bienvenue chez Time Us</h2>
+                    <p>Fondée en 2025, <strong>Time Us</strong> est née dans le cadre d'un projet universitaire,
+                        l'objectif est de
+                        rendre accessible des montres de qualité à tous les amateurs d'élégance et de précision.</p>
+
+                    <p>Notre mission est simple : proposer une sélection rigoureuse des plus belles montres, alliant
+                        design, qualité et innovation, tout en offrant un service client irréprochable.</p>
+
+                    <p>Chaque montre que nous proposons est sélectionnée avec soin par nos experts, garantissant ainsi à
+                        nos clients des produits d'exception qui traverseront le temps.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="values-section container">
+            <div class="title">
+                <h2>Nos Valeurs</h2>
+            </div>
+
+            <div class="values-content">
+                <div class="value">
+                    <i class='bx bx-medal'></i>
+                    <h3>Excellence</h3>
+                    <p>Nous ne proposons que des produits de la plus haute qualité</p>
+                </div>
+
+                <div class="value">
+                    <i class='bx bx-check-shield'></i>
+                    <h3>Authenticité</h3>
+                    <p>Toutes nos montres sont garanties authentiques</p>
+                </div>
+
+                <div class="value">
+                    <i class='bx bx-heart'></i>
+                    <h3>Service</h3>
+                    <p>Nous plaçons la satisfaction client au cœur de notre démarche</p>
+                </div>
+
+                <div class="value">
+                    <i class='bx bx-bulb'></i>
+                    <h3>Innovation</h3>
+                    <p>Nous sommes constamment à la recherche des dernières tendances</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>TIME us</h3>
+                <p>Votre boutique en ligne pour tous vos besoins technologiques. Nous proposons une large gamme de
+                    produits de qualité à des prix compétitifs.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Liens Rapides</h3>
+                <ul class="footer-links">
+                    <li><a href="acceuil2.php">Accueil</a></li>
+                    <li><a href="apropos.php">À propos</a></li>
+                    <li><a href="contact.php">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Nous Contacter</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-envelope"></i> contact@timeus.com</li>
+                    <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 25 Rue Dauphine, Paris</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; <?php echo date('Y'); ?> TIME us. Tous droits réservés. | Réalisé par CHERIEF Yacine-Samy
+        </div>
+    </footer>
 </body>
 
 </html>
-
-<?php
-// Fermeture de la connexion à la base de données
-mysqli_close($conn);
-?>
