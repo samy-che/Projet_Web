@@ -140,7 +140,7 @@ if (mysqli_num_rows($select_user) > 0) { // Vérification si l'utilisateur exist
                     <div class="username"><a href="profil.php" target='_BLANK'><?php echo $fetch_user['name']; ?></a>
                     </div>
                     <div>
-                        <a href="card.php"><i class='bx bx-shopping-bag'></i></a>
+                        <a href="panier.php"><i class='bx bx-shopping-bag'></i></a>
                     </div>
                     <div>
                         <a href="historique_command.php"><i class='bx bxs-book-content'></i></a>
