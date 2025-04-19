@@ -143,7 +143,7 @@ if (mysqli_num_rows($select_user) > 0) { // Vérification si l'utilisateur exist
                         <a href="panier.php"><i class='bx bx-shopping-bag'></i></a>
                     </div>
                     <div>
-                        <a href="historique_command.php"><i class='bx bxs-book-content'></i></a>
+                        <a href="historique.php"><i class='bx bxs-book-content'></i></a>
                     </div>
                     <div>
                         <a class="delete-btn" href="../acceuil.php?logout=<?php echo $user_id; ?>"

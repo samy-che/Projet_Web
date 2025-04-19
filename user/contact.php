@@ -21,7 +21,7 @@
                     <i class='bx bx-menu'></i>
                 </div>
                 <div class="logo">
-                    <a href="acceui2.php"><span>Time</span> Us</a>
+                    <a href="acceuil2.php"><span>Time</span> Us</a>
                 </div>
                 <div class="menu">
                     <div class="top">

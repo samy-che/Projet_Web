@@ -80,7 +80,8 @@ if (isset($_GET['delete_account'])) {
         }
 
         .profil {
-            padding: 20px;
+            width: 100%;
+            padding: 0;
         }
 
         .profil h3 {
@@ -92,25 +93,49 @@ if (isset($_GET['delete_account'])) {
         .profil .btn,
         .profil .delete-btn {
             display: inline-block;
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
+            margin: 15px;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .profil .btn:hover,
+        .profil .delete-btn:hover {
+            transform: scale(1.05);
         }
 
         .user-info {
-            margin: 20px 0;
+            margin: 20px 0 30px;
             text-align: left;
             padding: 0 20px;
         }
 
         .user-info p {
             margin: 10px 0;
-            font-size: 16px;
+            font-size: 18px;
         }
 
         .user-info strong {
             color: var(--noir);
             font-weight: 600;
+        }
+
+        /* Style pour les boutons d'action */
+        .profil .btn {
+            background-color: var(--primaire);
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            min-width: 200px;
+        }
+
+        .profil .delete-btn {
+            background-color: #ff3333;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            min-width: 200px;
         }
     </style>
 </head>
