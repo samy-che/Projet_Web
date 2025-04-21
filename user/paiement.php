@@ -76,7 +76,7 @@ if (mysqli_num_rows($select_user) > 0) {
 
                         </li>
                         <li class="nav-item">
-                            <a href="card.php" class="nav-link">Retour</a>
+                            <a href="panier.php" class="nav-link">Retour</a>
                         </li>
                     </ul>
                 </div>
@@ -84,7 +84,7 @@ if (mysqli_num_rows($select_user) > 0) {
                     <div class="username"><a href="profil.php" target='_BLANK'><?php echo $fetch_user['name']; ?></a>
                     </div>
                     <div>
-                        <a href="card.php"><i class='bx bx-shopping-bag'></i></a>
+                        <a href="panier.php"><i class='bx bx-shopping-bag'></i></a>
                         <!-- <span class = "align-center">0</span> -->
                     </div>
                     <div>
