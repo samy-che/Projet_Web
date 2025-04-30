@@ -212,8 +212,8 @@ $product_id = $_GET["id"];
                 <ul class="footer-links">
                     <li><a href="acceuil.php">Accueil</a></li>
                     <li><a href="login.php">Connexion</a></li>
-                    <li><a href="#">À propos</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="apropos.php">À propos</a></li>
+                    <li><a href="contact.php" target="_blank">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-column">
