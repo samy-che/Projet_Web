@@ -10,9 +10,6 @@ CREATE TABLE IF NOT EXISTS `admin` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Insertion d'un administrateur par défaut (mot de passe haché pour 'admin123')
-INSERT INTO `admin` (`email`, `mdp`) VALUES
-('admin@asshop.com', '$2y$10$.RYXpYR16jz9SOcW/3X/Xu/Jj8cRNPUBa2tCr/4S6J60Zu98Ct/NC');
 
 -- Table pour les produits
 CREATE TABLE IF NOT EXISTS `products` (

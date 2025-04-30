@@ -64,7 +64,7 @@ if (isset($_POST['update_profil'])) { // Vérifie si le formulaire de mise à jo
     <link rel="stylesheet" type="text/css" href="../styles/style.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" href="../img/logo.png" type="image/x-icon">
-    <title>AS Shop - Modifier Votre Profil</title>
+    <title>Time Us - Modifier Votre Profil</title>
 </head>
 
 <body>
@@ -87,7 +87,7 @@ if (isset($_POST['update_profil'])) { // Vérifie si le formulaire de mise à jo
                     <i class='bx bx-menu'></i>
                 </div>
                 <div class="logo">
-                    <a href="#"><span>AS</span> Shop</a>
+                    <a href="#"><span>Time</span> Us</a>
                 </div>
                 <div class="menu">
                     <div class="top">
