@@ -137,7 +137,7 @@ include 'connexion.php'; //
     </section>
 
     <script>
-        if (window.location.pathname.includes('index.php')) { // Vérifie si la page actuelle est index.php
+        if (window.location.pathname.includes('acceuil.php')) { // Vérifie si la page actuelle est acceuil.php
             let button = document.querySelector(".bx-shopping-bag"); // Sélectionne le bouton du panier
 
             button.addEventListener('click', function () { // Ajoute un écouteur d'événement pour le clic sur le bouton du panier
@@ -145,7 +145,7 @@ include 'connexion.php'; //
             });
         }
         document.addEventListener('DOMContentLoaded', function () { // Attend que le DOM soit chargé
-            if (window.location.pathname.includes('index.php')) { // Vérifie si la page actuelle est index.php
+            if (window.location.pathname.includes('acceuil.php')) { // Vérifie si la page actuelle est acceuil.php
                 let buttons = document.querySelectorAll(".btn2"); // Sélectionne tous les boutons "Ajouter au Panier"
 
                 buttons.forEach(function (button) { // Boucle pour chaque bouton "Ajouter au Panier"

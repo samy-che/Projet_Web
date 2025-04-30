@@ -8,7 +8,7 @@ $user_id = $_SESSION['user_id']; // Récupération de l'ID de l'utilisateur depu
 if (isset($_GET['logout'])) { // Vérifie si la demande de déconnexion est effectuée via GET
     unset($user_id); // Suppression de l'ID de l'utilisateur
     session_destroy(); // Destruction de la session
-    header('location:index.php'); // Redirection vers la page d'accueil
+    header('location:acceuil.php'); // Redirection vers la page d'accueil
 }
 ;
 
@@ -108,7 +108,7 @@ if (isset($_POST['update_profil'])) { // Vérifie si le formulaire de mise à jo
                         <!-- <span class = "align-center">0</span> -->
                     </div>
                     <div>
-                        <a class="delete-btn" href="../index.php?logout=<?php echo $user_id; ?>"
+                        <a class="delete-btn" href="../acceuil.php?logout=<?php echo $user_id; ?>"
                             onclick="return confirm('Es-tu sûr de te déconnecter ?');">Déconnexion</a>
                     </div>
                 </div>

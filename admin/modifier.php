@@ -26,7 +26,7 @@ if (mysqli_num_rows($select_admin) > 0) { // Vérifie s'il y a des résultats re
 if (isset($_GET['logout'])) { // Vérifie si le paramètre 'logout' est présent dans l'URL
     unset($fetch_admin['id']); // Supprime la clé 'id' des données de l'administrateur
     session_destroy(); // Détruit toutes les données de session
-    header('Location:index.php'); // Redirige vers la page d'accueil
+    header('Location:acceuil.php'); // Redirige vers la page d'accueil
 }
 
 require("commande.php"); // Inclut le fichier de fonction 'commande.php'
@@ -93,7 +93,7 @@ if ($produits) { // Vérifie si des détails de produit ont été récupérés a
                 <div class="icons d-flex">
                     <div class="username"><?php echo $fetch_admin['email']; ?></a></div>
                     <div>
-                        <a class="delete-btn" href="../index.php?logout=<?php echo $fetch_admin['id']; ?>"
+                        <a class="delete-btn" href="../acceuil.php?logout=<?php echo $fetch_admin['id']; ?>"
                             onclick="return confirm('Es-tu sûr de te déconnecter ?');">Déconnexion</a>
                     </div>
                 </div>

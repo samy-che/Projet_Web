@@ -75,7 +75,7 @@ if (isset($_POST["Ajouter"])) {
                             <i class='bx bx-user'></i>
                             <?php echo htmlspecialchars($fetch_admin['email']); ?>
                         </div>
-                        <a class="delete-btn" href="../index.php?logout=<?php echo $fetch_admin['id']; ?>"
+                        <a class="delete-btn" href="../acceuil.php?logout=<?php echo $fetch_admin['id']; ?>"
                             onclick="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?');">
                             <i class='bx bx-log-out'></i> Déconnexion
                         </a>

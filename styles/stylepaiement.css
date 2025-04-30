@@ -1,0 +1,199 @@
+@import url('style.css');
+
+/* ---------------------------------------
+   Styles spécifiques aux pages Paiement et Confirmation
+   Chemin : /styles/stylepaiement.css
+------------------------------------------*/
+
+/* Messages flash (succès / erreur) */
+.message{
+    position: sticky;
+    top:0; left:0; right: 0;
+    padding: 15px 10px;
+    background-color: var(--blanche);
+    text-align: center;
+    z-index: 1000;
+    box-shadow: var(--box-shadow);
+    color: var(--noir);
+    margin-bottom: 20px;
+    cursor: pointer;
+    animation: slideDown .4s ease;
+}
+
+@keyframes slideDown{
+    from{transform: translateY(-100%);} to{transform: translateY(0);}
+}
+
+/* ------------ Formulaire de paiement ------------- */
+.form-container{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.form-container form{
+    width: 100%;
+    max-width: 650px;
+    border-radius: 10px;
+    border: var(--border);
+    padding: 25px 30px;
+    background-color: var(--blanche);
+    box-shadow: var(--box-shadow);
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.form-container form:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 12px 22px rgba(0,0,0,.15);
+}
+
+.form-container form h3{
+    font-size: 2.6rem;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    color: var(--noir);
+    text-align: center;
+}
+
+.form-container form h4{
+    margin: 15px 0 5px;
+    font-size: 1.8rem;
+    color: var(--primaire);
+}
+
+.form-container form label{
+    display: block;
+    font-size: 1.4rem;
+    margin-top: 10px;
+}
+
+.form-container form .box{
+    width: 100%;
+    border-radius: 6px;
+    border: var(--border);
+    padding: 12px 14px;
+    margin-top: 5px;
+    font-size: 1.6rem;
+}
+
+.form-container form .box:focus{
+    border-color: var(--primaire);
+    box-shadow: 0 0 0 3px rgba(127,80,86,.25);
+}
+
+.paiement, .facturation{
+    margin-bottom: 25px;
+    padding: 20px;
+    background-color: var(--blanche);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+}
+
+@media (min-width: 992px){
+    .paiement, .facturation{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 20px;
+    }
+    .paiement label,
+    .facturation label{
+        grid-column: 1;
+        align-self: center;
+    }
+    .paiement .box,
+    .facturation .box{
+        grid-column: 2;
+    }
+}
+
+.btn2{
+    display: inline-block;
+    border-radius: 50px;
+    background-image: linear-gradient(135deg, var(--primaire) 0%, #a96f76 100%);
+    padding: 12px 35px;
+    color: var(--blanche);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.6rem;
+    margin-top: 25px;
+    transition: all 0.3s ease;
+}
+
+.btn2:hover{
+    transform: scale(1.05);
+    background-color: var(--noir);
+    color: var(--blanche);
+}
+
+.btn2:active{
+    transform: scale(.96);
+}
+
+/* ----------- Page confirmation ----------- */
+.container2{
+    max-width: 120rem;
+    margin: 40px auto;
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    padding: 0 2rem;
+}
+
+.left-div, .right-div{
+    flex: 1 1 40rem;
+    border: var(--border);
+    padding: 25px;
+    border-radius: 10px;
+    background-color: #fafafa;
+    box-shadow: var(--box-shadow);
+}
+
+.left-div{
+    border-left: 5px solid var(--primaire);
+}
+
+.right-div{
+    border-right: 5px solid var(--primaire);
+}
+
+.left-div h3, .right-div h3{
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+    color: var(--primaire);
+}
+
+.infocarte, .infolivraison{
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+}
+
+.img{
+    width: 120px;
+    height: auto;
+    margin: 10px 0;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.text{
+    text-align: center;
+    margin: 40px 0 60px;
+    font-size: 1.4rem;
+    color: var(--noir);
+}
+
+.text a{
+    color: var(--primaire);
+    text-decoration: underline;
+}
+
+/* ------------ Responsive ------------- */
+@media (max-width: 768px){
+    .container2{
+        flex-direction: column;
+        gap: 2rem;
+    }
+}

@@ -29,7 +29,7 @@
                     </div>
                     <ul class="nav-list d-flex">
                         <li class="nav-item">
-                            <a href="acceuil.2php" class="nav-link">Accueil</a>
+                            <a href="acceuil2.php" class="nav-link">Accueil</a>
                         </li>
                         <li class="nav-item">
                             <a href="acceuil2.php#products" class="nav-link">Boutique</a>

@@ -42,7 +42,7 @@ if (mysqli_num_rows($select_user) > 0) {
     <link rel="stylesheet" type="text/css" href="../styles/stylepaiement.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" href="../img/logo.png" type="image/x-icon">
-    <title>AS Shop - Paiement</title>
+    <title>Time Us - Paiement</title>
 </head>
 
 <body>
@@ -65,7 +65,7 @@ if (mysqli_num_rows($select_user) > 0) {
                     <i class='bx bx-menu'></i>
                 </div>
                 <div class="logo">
-                    <a href="#"><span>AS</span> Shop</a>
+                    <a href="acceuil2.php"><span>Time</span> Us</a>
                 </div>
                 <div class="menu">
                     <div class="top">
@@ -96,7 +96,7 @@ if (mysqli_num_rows($select_user) > 0) {
     </header>
 
     <div class="form-container">
-        <form action="recap_command.php" method="POST">
+        <form action="confirmation.php" method="POST">
             <h3>Paiement</h3>
             <div class="paiement">
                 <h4>Carte Bancaire</h4>

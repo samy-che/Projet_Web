@@ -26,10 +26,10 @@ if (mysqli_num_rows($select_user) > 0) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="../styles/stylepaiement.css">
+    <link rel="stylesheet" type="text/css" href="../styles/stylehistorique.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" href="../img/logo.png" type="image/x-icon">
-    <title>AS Shop - Paiement</title>
+    <title>Time Us - Historique</title>
 </head>
 
 <body>
@@ -52,7 +52,7 @@ if (mysqli_num_rows($select_user) > 0) {
                     <i class='bx bx-menu'></i>
                 </div>
                 <div class="logo">
-                    <a href="#"><span>AS</span> Shop</a>
+                    <a href="#"><span>Time</span> Us</a>
                 </div>
                 <div class="menu">
                     <div class="top">
@@ -71,7 +71,7 @@ if (mysqli_num_rows($select_user) > 0) {
                     <div class="username"><a href="profil.php" target='_BLANK'><?php echo $fetch_user['name']; ?></a>
                     </div> <!-- Affichage du nom de l'utilisateur avec un lien vers son profil -->
                     <div>
-                        <a href="card.php"><i class='bx bx-shopping-bag'></i></a>
+                        <a href="panier.php"><i class='bx bx-shopping-bag'></i></a>
                         <!-- <span class = "align-center">0</span> -->
                     </div>
                     <div>
