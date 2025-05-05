@@ -93,43 +93,37 @@ if (mysqli_num_rows($select_user) > 0) { // Vérification si l'utilisateur exist
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="../styles/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="../styles/style.css?v=<?php echo time(); ?>">
     <link rel="icon" href="../img/logo.png" type="image/x-icon">
-    <title>Time us</title>
+    <title>Time us - Votre Boutique Tech</title>
 </head>
 
 <body>
 
-    <div class="promo">
-        <span>Promo de 15% avec le code : DAUPHINE15</span>
+    <div class="promo animate__animated animate__fadeIn">
+        <span>🎉 Offre Spéciale : 15% de réduction avec le code DAUPHINE15 🎉</span>
     </div>
 
     <header class="header">
         <nav class="nav container">
-
             <div class="navigation d-flex">
-                <div class="icon1">
-                    <i class='bx bx-menu'></i>
-                </div>
                 <div class="logo">
                     <a href="#"><span>Time</span> us</a>
                 </div>
                 <div class="menu">
-                    <div class="top">
-                        <span class="fermer">Fermer <i class='bx bx-x'></i></span>
-                    </div>
                     <ul class="nav-list d-flex">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">Accueil</a>
+                            <a href="#" class="nav-link active">Accueil</a>
                         </li>
                         <li class="nav-item">
                             <a href="#products" class="nav-link">Boutique</a>
                         </li>
                         <li class="nav-item">
-                            <a href="apropos.php" class="nav-link" target='_BLANK'>A propos</a>
+                            <a href="apropos.php" class="nav-link">À propos</a>
                         </li>
                         <li class="nav-item">
                             <a href="contact.php" class="nav-link" target='_BLANK'>Contact</a>
@@ -137,13 +131,12 @@ if (mysqli_num_rows($select_user) > 0) { // Vérification si l'utilisateur exist
                     </ul>
                 </div>
                 <div class="icons d-flex">
-                    <div class="username"><a href="profil.php" target='_BLANK'><?php echo $fetch_user['name']; ?></a>
+                    <div class="username"><a href="profil.php"><?php echo $fetch_user['name']; ?></a></div>
+                    <div>
+                        <a href="panier.php"><i class='bx bx-shopping-bag' aria-label="Panier d'achat"></i></a>
                     </div>
                     <div>
-                        <a href="panier.php"><i class='bx bx-shopping-bag'></i></a>
-                    </div>
-                    <div>
-                        <a href="historique.php"><i class='bx bxs-book-content'></i></a>
+                        <a href="historique.php"><i class='bx bxs-book-content' aria-label="Historique des commandes"></i></a>
                     </div>
                     <div>
                         <a class="delete-btn" href="../acceuil.php?logout=<?php echo $user_id; ?>"
@@ -151,31 +144,31 @@ if (mysqli_num_rows($select_user) > 0) { // Vérification si l'utilisateur exist
                     </div>
                 </div>
             </div>
-
         </nav>
 
         <div class="banniere">
             <div class="banniere-contenu d-flex container">
-                <div class="gauche">
-                    <span class="Sous-titre">Nouveautés</span>
+                <div class="gauche animate__animated animate__fadeInLeft">
+                    <span class="Sous-titre">Découvrez notre Nouvelle Collection</span>
                     <h1 class="titre">
-                        Jusqu'à
+                        Équipez-vous avec
                         <span class="couleur">15%<br>
                             de réduction</span>
-                        sur nos offre de la semaine
+                        sur notre sélection premium
                     </h1>
-                    <h5>Du 26 mars au 21 juin</h5>
-                    <a href="#products" class="btn">Découvrir</a>
+                    <h5>Offre valable jusqu'au 21 juin 2025</h5>
+                    <a href="#products" class="btn animate__animated animate__pulse">Explorer la
+                        Collection</a>
                 </div>
-                <div class="droite">
-                    <img src="../img/setup.png" alt="">
+                <div class="droite animate__animated animate__fadeInRight">
+                    <img src="../img/setup.png" alt="Setup gaming premium" class="hero-image">
                 </div>
             </div>
         </div>
     </header>
 
     <section id="products" class="products">
-        <h1 class="title">Dernier arrivage</h1>
+        <h1 class="title animate__animated animate__fadeIn">Notre Sélection Premium</h1>
         <div class="box-container">
 
             <?php
@@ -187,38 +180,48 @@ if (mysqli_num_rows($select_user) > 0) { // Vérification si l'utilisateur exist
             if (mysqli_num_rows($select_product) > 0) { // Vérification si des produits sont présents
                 while ($fetch_product = mysqli_fetch_assoc($select_product)) { // Parcours des produits
                     ?>
-                    <div class="boite">
+                    <div class="boite animate__animated animate__fadeInUp">
                         <form class="box" action="" method="POST">
-                            <a href="page.php?id=<?php echo $fetch_product['id']; ?>">
-                                <img src="../img/products/<?php echo $fetch_product['image']; ?>" alt="">
-                                <div class="name"><?php echo $fetch_product['name']; ?></div>
-                                <div class="price"><?php echo $fetch_product['price']; ?>€</div>
-                                <div class="description">
-                                    <ul>
-                                        <?php
-                                        $liste = explode(";", $fetch_product['description']); // Séparation de la description en éléments
-                                        foreach ($liste as $element) { // Parcours des éléments de la description
-                                            echo $element . "<br>"; // Affichage de chaque élément de la description
-                                        }
-                                        ?>
-                                    </ul>
+                            <a href="page.php?id=<?php echo $fetch_product['id']; ?>" class="product-link">
+                                <div class="product-image">
+                                    <img src="../img/products/<?php echo $fetch_product['image']; ?>"
+                                        alt="<?php echo $fetch_product['name']; ?>">
+                                </div>
+                                <div class="product-info">
+                                    <div class="name"><?php echo $fetch_product['name']; ?></div>
+                                    <div class="price"><?php echo $fetch_product['price']; ?>€</div>
+                                    <div class="description">
+                                        <ul>
+                                            <?php
+                                            $liste = explode(";", $fetch_product['description']);
+                                            foreach ($liste as $element) {
+                                                echo "<li>" . $element . "</li>";
+                                            }
+                                            ?>
+                                        </ul>
+                                    </div>
                                 </div>
                             </a>
-                            <div class="stock">
+                            <div class="stock <?php echo $fetch_product['quantity'] > 0 ? 'in-stock' : 'out-of-stock'; ?>">
                                 <?php
-                                if ($fetch_product['quantity'] > 0) { // Vérification si le produit est en stock
-                                    echo "Stock : " . $fetch_product['quantity'];
+                                if ($fetch_product['quantity'] > 0) {
+                                    echo "<i class='bx bx-check-circle'></i> En stock : " . $fetch_product['quantity'];
                                 } else {
-                                    echo "Rupture de Stock"; // Affichage en cas de rupture de stock
+                                    echo "<i class='bx bx-x-circle'></i> Rupture de Stock";
                                 }
                                 ?>
                             </div>
-                            <input type="number" name="product_quantity" min="1" value="1">
+                            <div class="quantity-control">
+                                <input type="number" name="product_quantity" min="1"
+                                    max="<?php echo $fetch_product['quantity']; ?>" value="1" required>
+                            </div>
                             <input type="hidden" name="product_image" value="<?php echo $fetch_product['image']; ?>">
                             <input type="hidden" name="product_id" value="<?php echo $fetch_product['id']; ?>">
                             <input type="hidden" name="product_name" value="<?php echo $fetch_product['name']; ?>">
                             <input type="hidden" name="product_price" value="<?php echo $fetch_product['price']; ?>">
-                            <input type="submit" value="Ajouter au Panier" name="add_panier" class="btn2">
+                            <button type="submit" name="add_panier" class="btn2">
+                                <i class='bx bx-cart-add'></i> Ajouter au Panier
+                            </button>
                         </form>
                     </div>
                     <?php
@@ -232,34 +235,39 @@ if (mysqli_num_rows($select_user) > 0) { // Vérification si l'utilisateur exist
         </div>
     </section>
 
-    <script src="script/script.js"></script>
-    <footer>
+    <footer class="footer">
         <div class="footer-content">
             <div class="footer-column">
-                <h3>TIME us</h3>
-                <p>Votre boutique en ligne pour tous vos besoins technologiques. Nous proposons une large gamme de
-                    produits de qualité à des prix compétitifs.</p>
+                <h3><span>Time</span> us</h3>
+                <p>Votre destination premium pour l'équipement tech. Nous sélectionnons avec soin les meilleurs produits
+                    pour vous offrir une expérience d'achat exceptionnelle.</p>
+                <div class="social-links">
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                    <a href="#"><i class='bx bxl-twitter'></i></a>
+                </div>
             </div>
             <div class="footer-column">
-                <h3>Liens Rapides</h3>
+                <h3>Navigation</h3>
                 <ul class="footer-links">
-                    <li><a href="acceuil.php">Accueil</a></li>
-                    <li><a href="login.php">Connexion</a></li>
-                    <li><a href="apropos.php">À propos</a></li>
-                    <li><a href="contact.php">Contact</a></li>
+                    <li><a href="acceuil2.php"><i class='bx bx-home'></i> Accueil</a></li>
+                    <li><a href="profil.php"><i class='bx bx-user'></i> Profil</a></li>
+                    <li><a href="apropos.php"><i class='bx bx-info-circle'></i> À propos</a></li>
+                    <li><a href="contact.php"><i class='bx bx-envelope'></i> Contact</a></li>
                 </ul>
             </div>
             <div class="footer-column">
-                <h3>Nous Contacter</h3>
+                <h3>Contactez-nous</h3>
                 <ul class="footer-links">
-                    <li><i class="fas fa-envelope"></i> contact@timeus.com</li>
-                    <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
-                    <li><i class="fas fa-map-marker-alt"></i> 25 Rue Dauphine, Paris</li>
+                    <li><i class='bx bx-envelope'></i> contact@timeus.com</li>
+                    <li><i class='bx bx-phone'></i> +33 1 99 11 22 33</li>
+                    <li><i class='bx bx-map'></i> 25 Rue Dauphine, Paris</li>
                 </ul>
             </div>
         </div>
         <div class="copyright">
-            &copy; <?php echo date('Y'); ?> TIME us. Tous droits réservés. | Réalisé par CHERIEF Yacine-Samy
+            &copy; <?php echo date('Y'); ?> <span>Time</span> us. Tous droits réservés. | Réalisé par CHERIEF
+            Yacine-Samy
         </div>
     </footer>
 </body>

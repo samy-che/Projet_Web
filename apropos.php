@@ -264,7 +264,7 @@
                 <h3>Nous Contacter</h3>
                 <ul class="footer-links">
                     <li><i class="fas fa-envelope"></i> contact@timeus.com</li>
-                    <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
+                    <li><i class="fas fa-phone"></i> +33 1 99 11 22 33</li>
                     <li><i class="fas fa-map-marker-alt"></i> 25 Rue Dauphine, Paris</li>
                 </ul>
             </div>

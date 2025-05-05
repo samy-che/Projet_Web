@@ -159,7 +159,7 @@ include 'connexion.php'; //
                 <h3>Contactez-nous</h3>
                 <ul class="footer-links">
                     <li><i class='bx bx-envelope'></i> contact@timeus.com</li>
-                    <li><i class='bx bx-phone'></i> +33 1 23 45 67 89</li>
+                    <li><i class='bx bx-phone'></i> +33 1 99 11 22 33</li>
                     <li><i class='bx bx-map'></i> 25 Rue Dauphine, Paris</li>
                 </ul>
             </div>
