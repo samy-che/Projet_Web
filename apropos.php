@@ -7,7 +7,117 @@
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" href="img/logo.png" type="image/x-icon">
-    <title>A propos</title>
+    <title>À propos - Time Us</title>
+    <style>
+        .about-section {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-image {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .about-image img:hover {
+            transform: scale(1.05);
+        }
+
+        .about-text {
+            padding: 2rem;
+        }
+
+        .about-text h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+        }
+
+        .about-text p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .values-section {
+            padding: 4rem 0;
+            background: #fff;
+        }
+
+        .values-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .value {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .value:hover {
+            transform: translateY(-10px);
+        }
+
+        .value i {
+            font-size: 3rem;
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+
+        .value h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .value p {
+            color: #666;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .title h1,
+        .title h2 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .title h1::after,
+        .title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: #3498db;
+        }
+    </style>
 </head>
 
 <body>
@@ -44,7 +154,7 @@
                 <span class="icon">
                     <div><i class='bx bx-purchase-tag'></i></div>
                 </span>
-                <h4>Livraison gratuite</h4>
+                <h4>Livraison offerte</h4>
                 <span class="text">Commande supérieure à partir de 100€</span>
             </div>
 
@@ -61,7 +171,7 @@
                     <div><i class='bx bxs-left-arrow-circle'></i></div>
                 </span>
                 <h4>14 Jours pour retour</h4>
-                <span class="text">Produits 100% garantis</span>
+                <span class="text">Satisfait ou rembourser</span>
             </div>
 
             <div class="service">
@@ -69,7 +179,7 @@
                     <div><i class='bx bx-headphone'></i></div>
                 </span>
                 <h4>24/7 Support</h4>
-                <span class="text">Assistance Client</span>
+                <span class="text">Support Client</span>
             </div>
         </div>
     </section>
@@ -81,17 +191,21 @@
             </div>
 
             <div class="about-content">
+                <div class="about-image">
+                    <img src="img/products/image_1.png" alt="Montre Time Us">
+                </div>
                 <div class="about-text">
                     <h2>Bienvenue chez Time Us</h2>
-                    <p>Fondée en 2025, <strong>Time Us</strong> est née dans le cadre d'un projet universitaire,
-                        l'objectif est de
-                        rendre accessible des montres de qualité à tous les amateurs d'élégance et de précision.</p>
+                    <p>Fondée en 2025, <strong>Time Us</strong> est née d'une passion pour l'horlogerie et d'une vision
+                        : rendre accessible l'excellence horlogère à tous les amateurs d'élégance et de précision.</p>
 
-                    <p>Notre mission est simple : proposer une sélection rigoureuse des plus belles montres, alliant
-                        design, qualité et innovation, tout en offrant un service client irréprochable.</p>
+                    <p>Notre mission est de révolutionner l'expérience d'achat de montres en proposant une sélection
+                        rigoureuse des plus belles pièces, alliant design contemporain, qualité exceptionnelle et
+                        innovation technologique.</p>
 
-                    <p>Chaque montre que nous proposons est sélectionnée avec soin par nos experts, garantissant ainsi à
-                        nos clients des produits d'exception qui traverseront le temps.</p>
+                    <p>Chaque montre que nous proposons est minutieusement sélectionnée par nos experts horlogers,
+                        garantissant ainsi à nos clients des produits d'exception qui traverseront le temps avec
+                        élégance.</p>
                 </div>
             </div>
         </section>
@@ -105,25 +219,26 @@
                 <div class="value">
                     <i class='bx bx-medal'></i>
                     <h3>Excellence</h3>
-                    <p>Nous ne proposons que des produits de la plus haute qualité</p>
+                    <p>Nous ne proposons que des produits de la plus haute qualité, sélectionnés avec le plus grand soin
+                    </p>
                 </div>
 
                 <div class="value">
                     <i class='bx bx-check-shield'></i>
                     <h3>Authenticité</h3>
-                    <p>Toutes nos montres sont garanties authentiques</p>
+                    <p>Chaque montre est garantie authentique et accompagnée de sa certification officielle</p>
                 </div>
 
                 <div class="value">
                     <i class='bx bx-heart'></i>
-                    <h3>Service</h3>
-                    <p>Nous plaçons la satisfaction client au cœur de notre démarche</p>
+                    <h3>Service Premium</h3>
+                    <p>Une équipe dédiée à votre service pour une expérience d'achat exceptionnelle</p>
                 </div>
 
                 <div class="value">
                     <i class='bx bx-bulb'></i>
                     <h3>Innovation</h3>
-                    <p>Nous sommes constamment à la recherche des dernières tendances</p>
+                    <p>Nous sommes constamment à la pointe des dernières innovations horlogères</p>
                 </div>
             </div>
         </section>
