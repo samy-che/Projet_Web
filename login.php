@@ -1,15 +1,9 @@
 <?php
-// Inclusion du fichier de connexion à la base de données et démarrage de la session PHP
 include 'connexion.php';
 session_start();
-
-// Vérification si le formulaire de connexion a été soumis
 if (isset($_POST['submit'])) {
-    // Récupération et échappement des valeurs saisies dans le formulaire
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
-
-    // Vérification dans la table admin
     $stmt_admin = $conn->prepare("SELECT * FROM admin WHERE email = ?");
     $stmt_admin->bind_param('s', $email);
     $stmt_admin->execute();
@@ -50,7 +44,7 @@ if (isset($_POST['submit'])) {
     }
 }
 
-// Fermeture des statements
+
 if (isset($stmt_admin))
     $stmt_admin->close();
 if (isset($stmt_user))
@@ -71,7 +65,7 @@ if (isset($stmt_user))
 
 <body>
     <?php
-    // Affichage des messages d'erreur
+
     if (isset($message)) {
         foreach ($message as $message) {
             echo '<div class="message" onclick="this.remove();">' . $message . '</div>';
@@ -97,7 +91,7 @@ if (isset($stmt_user))
 
 </html>
 <?php
-// Fermeture de la connexion à la base de données
+
 if (isset($conn))
     mysqli_close($conn);
 ?>

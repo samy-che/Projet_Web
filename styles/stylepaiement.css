@@ -1,11 +1,8 @@
 @import url('style.css');
 
-/* ---------------------------------------
-   Styles spécifiques aux pages Paiement et Confirmation
-   Chemin : /styles/stylepaiement.css
-------------------------------------------*/
 
-/* Messages flash (succès / erreur) */
+
+
 .message{
     position: sticky;
     top:0; left:0; right: 0;
@@ -24,7 +21,7 @@
     from{transform: translateY(-100%);} to{transform: translateY(0);}
 }
 
-/* ------------ Formulaire de paiement ------------- */
+
 .form-container{
     flex: 1;
     display: flex;
@@ -190,7 +187,7 @@
     text-decoration: underline;
 }
 
-/* ------------ Responsive ------------- */
+
 @media (max-width: 768px){
     .container2{
         flex-direction: column;

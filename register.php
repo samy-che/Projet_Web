@@ -1,10 +1,9 @@
 <?php
-//Ce fichier permet de s'enregistrer
+include 'connexion.php';
+session_start();
+$product_id = $_GET["id"];
 
-include 'connexion.php'; // Inclut le fichier de connexion à la base de données
-
-if (isset($_POST['submit'])) { // Vérifie si le formulaire a été soumis
-    // Sécurisation des données en échappant les caractères spéciaux
+if (isset($_POST['submit'])) {
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
@@ -14,29 +13,24 @@ if (isset($_POST['submit'])) { // Vérifie si le formulaire a été soumis
     $ville = mysqli_real_escape_string($conn, $_POST['ville']);
     $codepostal = mysqli_real_escape_string($conn, $_POST['codepostal']);
 
-    // Vérification du mot de passe de confirmation
     if ($password != $cpassword) {
         $message[] = "Le mot de passe de confirmation ne correspond pas !";
     } else {
-        // Hachage du mot de passe
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // Vérification si l'utilisateur existe déjà avec une requête préparée
         $stmt = $conn->prepare("SELECT * FROM `user_form` WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $select = $stmt->get_result();
 
         if (mysqli_num_rows($select) > 0) {
-            $message[] = "L'utilisateur existe déjà !"; // Affichage d'un message
+            $message[] = "L'utilisateur existe déjà !"; 
         } else {
-            // Insertion de l'utilisateur dans la base de données avec une requête préparée
             $stmt = $conn->prepare("INSERT INTO `user_form` (name, email, password, numrue, nomrue, ville, codepostal) VALUES(?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("sssssss", $name, $email, $hashed_password, $numrue, $nomrue, $ville, $codepostal);
             $stmt->execute();
 
-            $message[] = "Inscription réussie !"; // Affichage d'un message
-            // Redirection vers la page de connexion avec un message de confirmation
+            $message[] = "Inscription réussie !"; 
             header('location:login.php?success=1');
         }
     }
@@ -60,7 +54,6 @@ if (isset($_POST['submit'])) { // Vérifie si le formulaire a été soumis
 
     <?php
 
-    // Affichage des messages s'il y en a
     if (isset($message)) {
         foreach ($message as $message) {
             echo '<div class="message" onclick="this.remove();">' . $message . '</div>';
@@ -94,9 +87,8 @@ if (isset($_POST['submit'])) { // Vérifie si le formulaire a été soumis
 
 </body>
 
-</html>
+</html>     
 
 <?php
-// Fermeture de la connexion à la base de données
 mysqli_close($conn);
 ?>

@@ -13,18 +13,14 @@ if (mysqli_num_rows($select_admin) > 0) {
     $fetch_admin = mysqli_fetch_assoc($select_admin);
 }
 
-// Récupérer tous les produits
 $select_products = mysqli_query($conn, "SELECT * FROM `products`");
 $produits = mysqli_fetch_all($select_products, MYSQLI_ASSOC);
 
-// Traitement de la suppression
 if (isset($_POST['Supprimer']) && isset($_POST['id'])) {
     $id = mysqli_real_escape_string($conn, $_POST['id']);
 
-    // Supprimer le produit
     if (mysqli_query($conn, "DELETE FROM `products` WHERE id = '$id'")) {
         $message[] = "Produit supprimé avec succès !";
-        // Rafraîchir la liste des produits
         $select_products = mysqli_query($conn, "SELECT * FROM `products`");
         $produits = mysqli_fetch_all($select_products, MYSQLI_ASSOC);
     } else {

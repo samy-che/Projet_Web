@@ -1,78 +1,63 @@
 <?php
 
-// Inclusion du fichier de connexion et démarrage de la session
+
 include 'connexion.php';
 session_start();
 
-// Récupération de l'identifiant de l'utilisateur depuis la session
 $user_id = $_SESSION['user_id'];
 
-// Vérification si l'utilisateur demande à se déconnecter
 if (isset($_GET['logout'])) {
-    // Suppression de l'identifiant de l'utilisateur et destruction de la session
     unset($user_id);
     session_destroy();
-    // Redirection vers la page d'accueil
     header('location:acceuil.php');
 }
 
-// Récupération de l'identifiant du produit depuis l'URL
+
 $product_id = $_GET["id"];
 
-// Traitement de l'ajout d'un produit au panier
-if (isset($_POST['add_panier'])) { // Vérification si le formulaire d'ajout au panier a été soumis
-    $product_name = $_POST['product_name']; // Récupération du nom du produit depuis le formulaire
-    $product_price = $_POST['product_price']; // Récupération du prix du produit depuis le formulaire
-    $product_image = $_POST['product_image']; // Récupération de l'image du produit depuis le formulaire
-    $product_quantity = $_POST['product_quantity']; // Récupération de la quantité du produit depuis le formulaire
 
-    $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name' AND user_id = '$user_id'") or die('Erreur de requête'); // Requête pour vérifier si le produit est déjà dans le panier
+if (isset($_POST['add_panier'])) { 
+    $product_name = $_POST['product_name']; 
+    $product_price = $_POST['product_price']; 
+    $product_image = $_POST['product_image']; 
+    $product_quantity = $_POST['product_quantity']; 
+
+    $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name' AND user_id = '$user_id'") or die('Erreur de requête'); 
 
     $select_stock = mysqli_query($conn, "SELECT * FROM `products` WHERE id = $product_id") or die('Erreur de requête');
     $fetch_stock = mysqli_fetch_assoc($select_stock);
 
-    if ($fetch_stock["quantity"] <= 0) { // Vérifcation si la quantité en stock
+    if ($fetch_stock["quantity"] <= 0) { 
         $message[] = 'Vous ne pouvez pas ajouter un produit en rupture de stock !';
     } else {
-        if (mysqli_num_rows($select_cart) > 0) { // Vérification si le produit est déjà dans le panier
-            $message[] = 'Le produit a déjà été ajouté dans le panier !'; // Message d'erreur
+        if (mysqli_num_rows($select_cart) > 0) { 
+            $message[] = 'Le produit a déjà été ajouté dans le panier !'; 
         } else {
-            mysqli_query($conn, "INSERT INTO `cart`(user_id, product_id, name, price, image, quantity) VALUES('$user_id','$product_id', '$product_name', '$product_price', '$product_image','$product_quantity')") or die('Erreur de requête'); // Insertion du produit dans le panier
-            $message[] = 'Le produit a été ajouté dans le panier'; // Message de succès
+            mysqli_query($conn, "INSERT INTO `cart`(user_id, product_id, name, price, image, quantity) VALUES('$user_id','$product_id', '$product_name', '$product_price', '$product_image','$product_quantity')") or die('Erreur de requête'); 
+            $message[] = 'Le produit a été ajouté dans le panier'; 
         }
     }
 }
 
-// Sélection des informations de l'utilisateur connecté
 $select_user = mysqli_query($conn, "SELECT * FROM `user_form` WHERE ID = '$user_id'") or die("Erreur de requête");
 if (mysqli_num_rows($select_user) > 0) {
-    // Récupération des données de l'utilisateur
     $fetch_user = mysqli_fetch_assoc($select_user);
 }
 
-// Configuration du fuseau horaire
 date_default_timezone_set('Europe/Paris');
 
-// Traitement de la soumission d'un commentaire
 if (isset($_POST['submit'])) {
-    // Récupération des données du formulaire de commentaire
     $nom = $_POST['nom'];
     $commentaire = mysqli_real_escape_string($conn, $_POST['commentaire']);
     $date_heure = date("Y-m-d H:i:s");
 
-    // Insertion du commentaire dans la base de données
     mysqli_query($conn, "INSERT INTO commentaires(product_id, user_id, name, commentaire, date_heure) VALUES('$product_id', '$user_id','$nom','$commentaire', '$date_heure')");
-    // Message de succès pour la publication du commentaire
     $message[] = "Votre commentaire a été posté !";
 }
 
-// Traitement de la suppression d'un commentaire
 if (isset($_GET['commentaireid'])) {
-    // Récupération de l'identifiant du commentaire à supprimer depuis l'URL
     $delete_comment_id = $_GET['commentaireid'];
-    // Suppression du commentaire de la base de données
     mysqli_query($conn, "DELETE FROM commentaires WHERE id = $delete_comment_id AND user_id = $user_id");
-    // Redirection vers la page actuelle sans le paramètre commentaireid
     header("Location: page.php?id=$product_id");
     exit();
 }
@@ -90,7 +75,6 @@ if (isset($_GET['commentaireid'])) {
     <link rel="stylesheet" type="text/css" href="../styles/page.css?v=<?php echo time(); ?>">
     <link rel="icon" href="../img/logo.png" type="image/x-icon">
     <title>TIME us - <?php
-    // Récupération du nom du produit pour affichage dans le titre de la page
     $select_product = mysqli_query($conn, "SELECT name FROM `products` WHERE id = $product_id ") or die("Erreur de requête");
     if (mysqli_num_rows($select_product) > 0) {
         $fetch_name = mysqli_fetch_assoc($select_product);
@@ -102,7 +86,7 @@ if (isset($_GET['commentaireid'])) {
 <body>
 
     <?php
-    // Affichage des messages éventuels
+
     if (isset($message)) {
         foreach ($message as $message) {
             echo '<div class="message" onclick="this.remove();">' . $message . '</div>';
@@ -147,7 +131,6 @@ if (isset($_GET['commentaireid'])) {
             <a href="acceuil2.php">Accueil</a> >
             <span class="current-page">
                 <?php
-                // Récupération du nom du produit pour le fil d'Ariane
                 $select_product = mysqli_query($conn, "SELECT name FROM `products` WHERE id = $product_id ") or die("Erreur de requête");
                 if (mysqli_num_rows($select_product) > 0) {
                     $fetch_name = mysqli_fetch_assoc($select_product);
@@ -161,7 +144,6 @@ if (isset($_GET['commentaireid'])) {
     <section class="products2">
         <div class="box-container2">
             <?php
-            // Récupération et affichage des détails du produit à partir de la base de données en fonction de son ID
             $select_product = mysqli_query($conn, "SELECT * FROM `products` WHERE id = $product_id ") or die("Erreur de requête");
             if (mysqli_num_rows($select_product) > 0) {
                 while ($fetch_product = mysqli_fetch_assoc($select_product)) {
@@ -176,7 +158,6 @@ if (isset($_GET['commentaireid'])) {
                             <div
                                 class="product-stock <?php echo ($fetch_product['quantity'] > 0) ? 'in-stock' : 'out-of-stock'; ?>">
                                 <?php
-                                // Vérification et affichage du stock du produit
                                 if ($fetch_product['quantity'] > 0) {
                                     echo "<i class='bx bx-check-circle'></i> En stock : " . $fetch_product['quantity'] . " unités";
                                 } else {
@@ -189,7 +170,6 @@ if (isset($_GET['commentaireid'])) {
                                 <h3>Caractéristiques :</h3>
                                 <ul class="feature-list">
                                     <?php
-                                    // Affichage de la description du produit
                                     $liste = explode(";", $fetch_product['description']);
                                     foreach ($liste as $element) {
                                         if (!empty(trim($element))) {
@@ -246,9 +226,7 @@ if (isset($_GET['commentaireid'])) {
 
             <div class="reviews-container">
                 <?php
-                // Récupération et affichage des commentaires sur le produit
                 $select_commentaire = mysqli_query($conn, "SELECT * FROM commentaires WHERE product_id = $product_id ORDER BY date_heure DESC");
-                // Si le nombre total de commentaire est supérieur à 0 : on affiche tous les commentaires
                 if (mysqli_num_rows($select_commentaire) > 0) {
                     while ($ligne = mysqli_fetch_assoc($select_commentaire)) {
                         ?>

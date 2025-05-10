@@ -1,34 +1,34 @@
 <?php
 
-include 'connexion.php'; // Inclut le fichier de connexion à la base de données
-session_start(); // Démarre la session PHP
+include 'connexion.php'; 
+session_start(); 
 
-// Vérification si l'utilisateur est connecté
+
 if (isset($_SESSION['user_id'])) {
-    $user_id = $_SESSION['user_id']; // Récupère l'ID de l'utilisateur à partir de la session
+    $user_id = $_SESSION['user_id']; 
 } else {
     // Redirection vers la page de connexion si l'utilisateur n'est pas connecté
     header('location:../login.php');
     exit();
 }
 
-if (isset($_GET['logout'])) { // Vérifie si le paramètre 'logout' est présent dans l'URL
-    unset($user_id); // Supprime la variable 'user_id'
-    session_destroy(); // Détruit toutes les données de session
-    header('location:acceuil.php'); // Redirige vers la page d'accueil
+if (isset($_GET['logout'])) {
+    unset($user_id);
+    session_destroy();
+    header('location:acceuil.php');
 }
 
-$select_user = mysqli_query($conn, "SELECT * FROM `user_form` WHERE ID = '$user_id'") or die("Erreur de requête"); // Sélectionne les informations de l'utilisateur actuel
-if (mysqli_num_rows($select_user) > 0) { // Vérifie s'il y a des résultats retournés
-    $fetch_user = mysqli_fetch_assoc($select_user); // Récupère les données de l'utilisateur actuel
+$select_user = mysqli_query($conn, "SELECT * FROM `user_form` WHERE ID = '$user_id'") or die("Erreur de requête");
+if (mysqli_num_rows($select_user) > 0) {
+    $fetch_user = mysqli_fetch_assoc($select_user);
 }
 
 // MODIFIER QUANTITY
-if (isset($_POST['update_cart'])) { // Vérifie si le formulaire de mise à jour du panier a été soumis
-    $update_quantity = $_POST['cart_quantity']; // Récupère la nouvelle quantité du produit à partir du formulaire
-    $update_id = $_POST['cart_id']; // Récupère l'ID du produit à mettre à jour à partir du formulaire
+if (isset($_POST['update_cart'])) { 
+    $update_quantity = $_POST['cart_quantity']; 
+    $update_id = $_POST['cart_id']; 
 
-    mysqli_query($conn, "UPDATE `cart` SET quantity = '$update_quantity' WHERE id = '$update_id'") or die("Erreur de requête"); // Met à jour la quantité du produit dans le panier
+    mysqli_query($conn, "UPDATE `cart` SET quantity = '$update_quantity' WHERE id = '$update_id'") or die("Erreur de requête"); 
 
     // Réinitialiser les variables de session liées au code promo pour forcer un recalcul
     if (isset($_SESSION['code_promo_applique']) && $_SESSION['code_promo_applique'] === true) {
@@ -36,13 +36,13 @@ if (isset($_POST['update_cart'])) { // Vérifie si le formulaire de mise à jour
         unset($_SESSION['montant_promo']);
     }
 
-    $message[] = 'La quantité a bien été correctement modifiée !'; // Ajoute un message de confirmation de modification de la quantité
+    $message[] = 'La quantité a été modifiee';
 }
 
 //SUPPRIMER
-if (isset($_GET['remove'])) { // Vérifie si le paramètre 'remove' est présent dans l'URL
-    $remove_id = $_GET['remove']; // Récupère l'ID du produit à supprimer à partir de l'URL
-    mysqli_query($conn, "DELETE FROM `cart` WHERE id = '$remove_id'") or die('Erreur de requête'); // Supprime le produit du panier
+if (isset($_GET['remove'])) {
+    $remove_id = $_GET['remove'];
+    mysqli_query($conn, "DELETE FROM `cart` WHERE id = '$remove_id'") or die('Erreur de requête');
 
     // Vérifier s'il reste des articles dans le panier
     $check_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'");
@@ -56,8 +56,8 @@ if (isset($_GET['remove'])) { // Vérifie si le paramètre 'remove' est présent
     header('location:panier.php'); // Redirige vers la page du panier
 }
 
-if (isset($_GET['delete_all'])) { // Vérifie si le paramètre 'delete_all' est présent dans l'URL
-    mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('Erreur de requête'); // Supprime tous les produits du panier de l'utilisateur
+if (isset($_GET['delete_all'])) {
+    mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('Erreur de requête');
 
     // Réinitialiser les variables de session liées au code promo
     unset($_SESSION['code_promo_applique']);
@@ -85,9 +85,9 @@ if (isset($_GET['delete_all'])) { // Vérifie si le paramètre 'delete_all' est 
 
     <?php
 
-    if (isset($message)) { // Vérifie s'il y a des messages à afficher
-        foreach ($message as $message) { // Parcourt tous les messages
-            echo '<div class="message" onclick="this.remove();">' . $message . '</div>'; // Affiche chaque message dans une boîte de message avec la possibilité de le supprimer en cliquant dessus
+    if (isset($message)) {
+        foreach ($message as $message) {
+            echo '<div class="message" onclick="this.remove();">' . $message . '</div>';
         }
     }
 
@@ -144,39 +144,33 @@ if (isset($_GET['delete_all'])) { // Vérifie si le paramètre 'delete_all' est 
 
 
                     <?php
-                    $total = 0; // Initialise la variable pour le total du panier
-                    $cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die("Erreur de requête"); // Sélectionne tous les produits dans le panier de l'utilisateur
-                    if (mysqli_num_rows($cart) > 0) { // Vérifie s'il y a des produits dans le panier
-                        while ($fetch_cart = mysqli_fetch_assoc($cart)) { // Parcourt tous les produits du panier
+                    $total = 0;
+                    $cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die("Erreur de requête");
+                    if (mysqli_num_rows($cart) > 0) {
+                        while ($fetch_cart = mysqli_fetch_assoc($cart)) {
                             ?>
                             <tr>
                                 <td><img src="../img/products/<?php echo $fetch_cart['image'] ?>" height="100" alt=""></td>
-                                <!-- Affiche l'image du produit -->
-                                <td><?php echo $fetch_cart['name'] ?></td> <!-- Affiche le nom du produit -->
-                                <td><?php echo $fetch_cart['price'] ?>€</td> <!-- Affiche le prix du produit -->
+                                <td><?php echo $fetch_cart['name'] ?></td>
+                                <td><?php echo $fetch_cart['price'] ?>€</td>
                                 <td>
-                                    <form action="" method="POST"> <!-- Formulaire pour mettre à jour la quantité du produit -->
+                                    <form action="" method="POST">
                                         <input type="hidden" name="cart_id" value="<?php echo $fetch_cart['id']; ?>">
-                                        <!-- Champ caché contenant l'ID du produit -->
                                         <input type="number" min="1" name="cart_quantity"
                                             value="<?php echo $fetch_cart['quantity']; ?>">
-                                        <!-- Champ pour entrer la quantité du produit -->
                                         <input type="submit" name="update_cart" value="Modifier" class="option-btn">
-                                        <!-- Bouton pour soumettre le formulaire de mise à jour de la quantité -->
                                     </form>
                                 </td>
                                 <td><?php echo $sub_total = ($fetch_cart['price'] * $fetch_cart['quantity']) ?>€</td>
-                                <!-- Affiche le total pour ce produit -->
                                 <td><a class="delete-btn" href="panier.php?remove=<?php echo $fetch_cart['id']; ?>"
                                         onclick="return confirm('Veux-tu retirer du panier ?')">Supprimer</a></td>
-                                <!-- Lien pour supprimer ce produit du panier -->
                             </tr>
                             <?php
-                            $total += $sub_total; // Ajoute le total de ce produit au total général du panier
+                            $total += $sub_total;
                         }
                         ;
                     } else {
-                        echo '<tr><td style="padding:20px; text-transform:capitalize;" colspan="6">Votre panier est vide</td></tr>'; // Affiche un message si le panier est vide
+                        echo '<tr><td style="padding:20px; text-transform:capitalize;" colspan="6">Votre panier est vide</td></tr>';
                         // Si le panier est vide, réinitialiser les variables de session liées au code promo
                         unset($_SESSION['code_promo_applique']);
                         unset($_SESSION['montant_promo']);
@@ -188,28 +182,28 @@ if (isset($_GET['delete_all'])) { // Vérifie si le paramètre 'delete_all' est 
                         $total_avant_promo = $total; // Sauvegarde du total avant application du code promo
                         $code_promo_applique = false;
 
-                        if (isset($_POST["CodePromo"])) { // Vérifie si un code promo a été soumis
-                            $CodePromo = strtoupper($_POST["CodePromo"]); // Convertit le code promo en majuscules
-                            if ($CodePromo == "DAUPHINE15") { // Vérifie si le code promo est valide
+                        if (isset($_POST["CodePromo"])) {
+                            $CodePromo = strtoupper($_POST["CodePromo"]);
+                            if ($CodePromo == "DAUPHINE15") {
                                 $code_promo_applique = true;
-                                $total = $total * 0.85; // Applique une réduction de 15% sur le total
-                                $montant_promo = $total_avant_promo - $total; // Calcul du montant de la promotion
-                                $message[] = "Le code $CodePromo a été appliqué"; // Ajoute un message de confirmation de l'application du code promo
-                                mysqli_query($conn, "UPDATE `cart` SET codepromo = 1 WHERE user_id = '$user_id'") or die('Erreur de requête'); // Marque le panier comme ayant utilisé un code promo
+                                $total = $total * 0.85;
+                                $montant_promo = $total_avant_promo - $total;
+                                $message[] = "Le code $CodePromo a été appliqué";
+                                mysqli_query($conn, "UPDATE `cart` SET codepromo = 1 WHERE user_id = '$user_id'") or die('Erreur de requête');
                         
                                 // Stockage du montant de la promotion dans une variable de session pour l'afficher plus tard
                                 $_SESSION['montant_promo'] = $montant_promo;
                                 $_SESSION['code_promo_applique'] = true;
                             } else {
-                                $message[] = "/!\ Le code $CodePromo ne fonctionne pas !"; // Ajoute un message d'erreur si le code promo n'est pas valide
+                                $message[] = "/!\ Le code $CodePromo ne fonctionne pas !";
                             }
                         } else {
                             // Vérification si un code promo a déjà été appliqué (en vérifiant la base de données)
                             $check_promo = mysqli_query($conn, "SELECT codepromo FROM `cart` WHERE user_id = '$user_id' AND codepromo = 1 LIMIT 1");
                             if (mysqli_num_rows($check_promo) > 0) {
                                 $code_promo_applique = true;
-                                $total = $total * 0.85; // Application de la réduction de 15%
-                                $montant_promo = $total_avant_promo - $total; // Calcul du montant de la promotion
+                                $total = $total * 0.85;
+                                $montant_promo = $total_avant_promo - $total;
                         
                                 // Stockage du montant de la promotion dans une variable de session
                                 $_SESSION['montant_promo'] = $montant_promo;
@@ -219,7 +213,7 @@ if (isset($_GET['delete_all'])) { // Vérifie si le paramètre 'delete_all' est 
 
                         // Si un code promo est appliqué, on affiche d'abord le prix sans la promotion
                         if ($code_promo_applique && $total_avant_promo > 0):
-                            echo number_format($total_avant_promo, 2, '.', ''); // Affiche le total avant promotion avec 2 décimales et un point comme séparateur
+                            echo number_format($total_avant_promo, 2, '.', '');
                             ?>€</td>
                             <td></td>
                         </tr>
@@ -233,23 +227,21 @@ if (isset($_GET['delete_all'])) { // Vérifie si le paramètre 'delete_all' est 
                             <td><?php
                         endif;
 
-                        echo number_format($total, 2, '.', ''); // Affiche le total du panier avec 2 décimales et un point comme séparateur
+                        echo number_format($total, 2, '.', '');
                         ?>€</td>
                         <td><a class="delete-btn" href="panier.php?delete_all"
                                 onclick="return confirm('Veux-tu tout supprimer ?')">Tout supprimer</a></td>
-                        <!-- Lien pour supprimer tous les produits du panier -->
                     </tr>
                 </tbody>
             </table>
-            <form class="container-promo" action="" method="POST"> <!-- Formulaire pour soumettre un code promo -->
+            <form class="container-promo" action="" method="POST">
                 <label for="CodePromo">Code Promo</label>
                 <input class="CodePromo" type="text" id="CodePromo" name="CodePromo">
-                <!-- Champ pour entrer le code promo -->
-                <button class="btn2" type="submit">Appliquer</button> <!-- Bouton pour soumettre le code promo -->
+                <button class="btn2" type="submit">Appliquer</button>
             </form>
             <div class="cart-btn">
                 <a href="paiement.php" class="btn <?php echo ($total > 1) ? '' : 'disabled'; ?>">Confirmer le
-                    Paiement</a> <!-- Lien pour passer à la page de paiement si le total est supérieur à 1 -->
+                    Paiement</a>
             </div>
         </div>
 
@@ -261,6 +253,6 @@ if (isset($_GET['delete_all'])) { // Vérifie si le paramètre 'delete_all' est 
 </html>
 
 <?php
-// Fermeture de la connexion à la base de données
+
 mysqli_close($conn);
 ?>

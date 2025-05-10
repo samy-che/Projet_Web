@@ -1,11 +1,6 @@
 <?php
-//Ce fichier permet d'afficher une page dédiée pour chaque produit à l'aide de la récupération du product_id
-
-// Inclusion du fichier de connexion à la base de données et démarrage de la session PHP
 include 'connexion.php';
 session_start();
-
-// Récupération de l'ID du produit depuis la requête GET
 $product_id = $_GET["id"];
 ?>
 
@@ -20,7 +15,6 @@ $product_id = $_GET["id"];
     <link rel="stylesheet" type="text/css" href="styles/page.css?v=<?php echo time(); ?>">
     <link rel="icon" href="img/logo.png" type="image/x-icon">
     <title>TIME us - <?php
-    // Récupération du nom du produit à partir de la base de données en fonction de son ID
     $select_product = mysqli_query($conn, "SELECT name FROM `products` WHERE id = $product_id ") or die("Erreur de requête");
     if (mysqli_num_rows($select_product) > 0) {
         $fetch_name = mysqli_fetch_assoc($select_product);

@@ -1,62 +1,116 @@
 <?php
 
-include 'connexion.php'; // Inclusion du fichier de connexion
-session_start(); // Démarrage de la session
+require_once 'connexion.php';
+session_start();
 
-$user_id = $_SESSION['user_id']; // Récupération de l'ID de l'utilisateur depuis la session
 
-if (isset($_GET['logout'])) { // Vérifie si la demande de déconnexion est effectuée via GET
-    unset($user_id); // Suppression de l'ID de l'utilisateur
-    session_destroy(); // Destruction de la session
-    header('location:acceuil.php'); // Redirection vers la page d'accueil
+if (!isset($_SESSION['user_id'])) {
+
+    header('Location: login.php');
+    exit();
 }
-;
 
-$select_user = mysqli_query($conn, "SELECT * FROM `user_form` WHERE ID = '$user_id'") or die("Erreur de requête"); // Requête pour sélectionner les informations de l'utilisateur en fonction de son ID
-if (mysqli_num_rows($select_user) > 0) { // Vérifie si des lignes ont été renvoyées par la requête
-    $fetch_user = mysqli_fetch_assoc($select_user); // Récupération des données de l'utilisateur
+
+$user_id = $_SESSION['user_id'];
+$messages = [];
+$userData = null;
+
+
+if (isset($_GET['logout'])) {
+
+    $_SESSION = [];
+    session_destroy();
+    
+    header('Location: acceuil2.php');
+    exit();
 }
-;
 
-if (isset($_POST['update_profil'])) { // Vérifie si le formulaire de mise à jour du profil a été soumis
-    $update_name = mysqli_real_escape_string($conn, $_POST['update_name']); // Échappement des caractères spéciaux et récupération du nouveau nom
-    $update_email = mysqli_real_escape_string($conn, $_POST['update_email']); // Échappement des caractères spéciaux et récupération du nouvel email
-    $update_numrue = mysqli_real_escape_string($conn, $_POST['update_numrue']); // Échappement des caractères spéciaux et récupération du nouveau numéro de rue
-    $update_nomrue = mysqli_real_escape_string($conn, $_POST['update_nomrue']); // Échappement des caractères spéciaux et récupération du nouveau nom de rue
-    $update_ville = mysqli_real_escape_string($conn, $_POST['update_ville']); // Échappement des caractères spéciaux et récupération de la nouvelle ville
-    $update_codepostal = mysqli_real_escape_string($conn, $_POST['update_codepostal']); // Échappement des caractères spéciaux et récupération du nouveau code postal
+function getUserData($connection, $userId) {
+    $stmt = $connection->prepare("SELECT * FROM user_form WHERE id = ?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        return $result->fetch_assoc();
+    }
+    
+    return null;
+}
 
-    mysqli_query($conn, "UPDATE `user_form` SET name = '$update_name', email = '$update_email', numrue = '$update_numrue', nomrue = '$update_nomrue', ville ='$update_ville', codepostal = '$update_codepostal' WHERE id = '$user_id'") or die('Erreur de requête'); // Requête pour mettre à jour les informations de l'utilisateur dans la base de données
+$userData = getUserData($conn, $user_id);
 
-    $message[] = "Votre compte a été modifié avec vos nouvelles données !"; // Ajout d'un message de succès
-
-    $old_pass = $_POST['old_pass']; // Récupération de l'ancien mot de passe depuis le formulaire
-    $update_pass = mysqli_real_escape_string($conn, $_POST['update_pass']); // Échappement des caractères spéciaux et récupération du mot de passe actuel
-    $new_pass = mysqli_real_escape_string($conn, $_POST['new_pass']); // Échappement des caractères spéciaux et récupération du nouveau mot de passe
-    $cnew_pass = mysqli_real_escape_string($conn, $_POST['cnew_pass']); // Échappement des caractères spéciaux et récupération de la confirmation du nouveau mot de passe
-
-    // Vérifie si un nouveau mot de passe est soumis
-    if (!empty($update_pass) || !empty($new_pass) || !empty($cnew_pass)) {
-        // Vérifie si l'ancien mot de passe est correct
-        if (!password_verify($update_pass, $fetch_user['password'])) {
-            $message[] = "L'ancien mot de passe est incorrect"; // Message d'erreur si l'ancien mot de passe est incorrect
-        } elseif ($new_pass != $cnew_pass) {
-            $message[] = "Le mot de passe de confirmation est incorrect"; // Message d'erreur si la confirmation du nouveau mot de passe ne correspond pas
+if (isset($_POST['update_profil'])) {
+    $formData = [
+        'name' => filter_input(INPUT_POST, 'update_name', FILTER_SANITIZE_STRING),
+        'email' => filter_input(INPUT_POST, 'update_email', FILTER_SANITIZE_EMAIL),
+        'numrue' => filter_input(INPUT_POST, 'update_numrue', FILTER_SANITIZE_NUMBER_INT),
+        'nomrue' => filter_input(INPUT_POST, 'update_nomrue', FILTER_SANITIZE_STRING),
+        'ville' => filter_input(INPUT_POST, 'update_ville', FILTER_SANITIZE_STRING),
+        'codepostal' => filter_input(INPUT_POST, 'update_codepostal', FILTER_SANITIZE_STRING)
+    ];
+    
+    $updateQuery = $conn->prepare("UPDATE user_form SET 
+                                name = ?, 
+                                email = ?, 
+                                numrue = ?, 
+                                nomrue = ?, 
+                                ville = ?, 
+                                codepostal = ? 
+                                WHERE id = ?");
+    
+    if ($updateQuery) {
+        $updateQuery->bind_param("ssisssi", 
+            $formData['name'], 
+            $formData['email'], 
+            $formData['numrue'], 
+            $formData['nomrue'], 
+            $formData['ville'], 
+            $formData['codepostal'], 
+            $user_id
+        );
+        
+        if ($updateQuery->execute()) {
+            $messages[] = "Vos informations personnelles ont été mises à jour avec succès.";
         } else {
-            // Hasher le nouveau mot de passe
-            $hashed_new_pass = password_hash($new_pass, PASSWORD_DEFAULT); // Hashage du nouveau mot de passe
-            // Mettre à jour le mot de passe dans la base de données
-            mysqli_query($conn, "UPDATE `user_form` SET password = '$hashed_new_pass' WHERE id = '$user_id'") or die('Erreur de requête'); // Requête pour mettre à jour le mot de passe dans la base de données
-            $message[] = "Le mot de passe a été modifié !"; // Message de succès pour la modification du mot de passe
+            $messages[] = "Erreur lors de la mise à jour des informations: " . $conn->error;
         }
     }
+    
+    $currentPassword = filter_input(INPUT_POST, 'update_pass', FILTER_SANITIZE_STRING);
+    $newPassword = filter_input(INPUT_POST, 'new_pass', FILTER_SANITIZE_STRING);
+    $confirmPassword = filter_input(INPUT_POST, 'cnew_pass', FILTER_SANITIZE_STRING);
+    
+    if (!empty($currentPassword) || !empty($newPassword) || !empty($confirmPassword)) {
+        if (!password_verify($currentPassword, $userData['password'])) {
+            $messages[] = "Erreur: Le mot de passe actuel est incorrect.";
+        } 
+        elseif ($newPassword !== $confirmPassword) {
+            $messages[] = "Erreur: Les nouveaux mots de passe ne correspondent pas.";
+        } 
+        else {
+            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+            
+            $passwordUpdate = $conn->prepare("UPDATE user_form SET password = ? WHERE id = ?");
+            if ($passwordUpdate) {
+                $passwordUpdate->bind_param("si", $hashedPassword, $user_id);
+                
+                if ($passwordUpdate->execute()) {
+                    $messages[] = "Votre mot de passe a été modifié avec succès.";
+                } else {
+                    $messages[] = "Erreur lors de la mise à jour du mot de passe: " . $conn->error;
+                }
+            }
+        }
+    }
+    
+    $userData = getUserData($conn, $user_id);
 }
 
 ?>
 
 <!DOCTYPE html>
-<html>
-
+<html lang="fr">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -65,29 +119,116 @@ if (isset($_POST['update_profil'])) { // Vérifie si le formulaire de mise à jo
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" href="../img/logo.png" type="image/x-icon">
     <title>Time Us - Modifier Votre Profil</title>
+    <style>
+        .update-profil {
+            min-height: 100vh;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .update-profil form {
+            width: 700px;
+            background-color: var(--blanche);
+            border-radius: 5px;
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+        }
+        
+        .update-profil form .flex {
+            display: flex;
+            gap: 15px;
+            justify-content: space-between;
+        }
+        
+        .update-profil form .inputBox {
+            width: 49%;
+        }
+        
+        .update-profil form .box {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 5px;
+            border: var(--border);
+            margin: 10px 0;
+            background-color: #eee;
+        }
+        
+        .update-profil form label {
+            display: block;
+            font-size: 1.8rem;
+            margin-top: 10px;
+            color: var(--noir);
+        }
+        
+        .btn3 {
+            width: 100%;
+            background-color: var(--primaire);
+            color: var(--blanche);
+            padding: 12px;
+            font-size: 1.8rem;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn3:hover {
+            background-color: var(--noir);
+        }
+        
+
+        .message {
+            position: sticky;
+            top: 0;
+            margin: 0 auto;
+            max-width: 1200px;
+            background-color: var(--blanche);
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10000;
+            gap: 1.5rem;
+            border-radius: 5px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 10px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 
 <body>
 
+    <div class="promo">
+        <span>Promo de 15% avec le code : DAUPHINE15</span>
+    </div>
+
     <?php
 
-    if (isset($message)) { // Vérifie si des messages sont disponibles
-        foreach ($message as $message) { // Parcourt tous les messages
-            echo '<div class="message" onclick="this.remove();">' . $message . '</div>'; // Affichage des messages dans une boîte d'alerte qui disparaît au clic
+    if (!empty($messages)) {
+        foreach ($messages as $msg) {
+            echo '<div class="message" onclick="this.remove();">'. $msg .'</div>';
         }
     }
-
     ?>
 
     <header class="header">
         <nav class="nav container">
-
             <div class="navigation d-flex">
                 <div class="icon1">
                     <i class='bx bx-menu'></i>
                 </div>
                 <div class="logo">
-                    <a href="#"><span>Time</span> Us</a>
+                    <a href="acceuil2.php"><span>Time</span> Us</a>
                 </div>
                 <div class="menu">
                     <div class="top">
@@ -95,85 +236,137 @@ if (isset($_POST['update_profil'])) { // Vérifie si le formulaire de mise à jo
                     </div>
                     <ul class="nav-list d-flex">
                         <li class="nav-item">
-
+                            <a href="acceuil2.php" class="nav-link">Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a href="profil.php" class="nav-link">Retour</a>
+                            <a href="#" class="nav-link">Boutique</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="apropos.php" class="nav-link">À propos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="contact.php" class="nav-link">Contact</a>
                         </li>
                     </ul>
                 </div>
                 <div class="icons d-flex">
                     <div>
-                        <a href="card.php"><i class='bx bx-shopping-bag'></i></a>
-                        <!-- <span class = "align-center">0</span> -->
+                        <a href="profil.php"><i class='bx bx-user' style="color: var(--primaire);"></i></a>
                     </div>
                     <div>
-                        <a class="delete-btn" href="../acceuil.php?logout=<?php echo $user_id; ?>"
-                            onclick="return confirm('Es-tu sûr de te déconnecter ?');">Déconnexion</a>
+                        <a href="panier.php"><i class='bx bx-shopping-bag'></i></a>
+                    </div>
+                    <div>
+                        <a class="delete-btn" href="acceuil2.php?logout=<?php echo $user_id; ?>"
+                            onclick="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?');">Déconnexion</a>
                     </div>
                 </div>
             </div>
-
         </nav>
     </header>
+    
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const menu = document.querySelector('.menu');
+            const navOpen = document.querySelector('.bx-menu');
+            const navClose = document.querySelector('.bx-x');
+
+            if (navOpen) {
+                navOpen.addEventListener('click', () => {
+                    menu.classList.add('montrer');
+                });
+            }
+
+            if (navClose) {
+                navClose.addEventListener('click', () => {
+                    menu.classList.remove('montrer');
+                });
+            }
+        });
+    </script>
 
     <div class="update-profil">
-        <?php
-        $select = mysqli_query($conn, "SELECT * FROM `user_form` WHERE id = '$user_id'") or die('Erreur de requête'); // Requête pour sélectionner les informations de l'utilisateur
-        if (mysqli_num_rows($select) > 0) { // Vérifie si des lignes ont été renvoyées par la requête
-            $fetch = mysqli_fetch_assoc($select); // Récupération des données de l'utilisateur
-        }
-
-        ?>
-
-        <form action="" method="POST"> <!-- Formulaire de mise à jour du profil -->
+        <form action="" method="POST">
+            <h3>Modifier votre profil</h3>
             <div class="flex">
                 <div class="inputBox">
                     <label for="update_name">Nom</label>
-                    <input class="box" type="text" name="update_name" value="<?php echo $fetch["name"]; ?>">
-                    <!-- Champ de saisie pour le nom avec la valeur actuelle affichée -->
+                    <input class="box" type="text" name="update_name" value="<?php echo htmlspecialchars($userData['name'] ?? ''); ?>">
+                    
                     <label for="update_email">Email</label>
-                    <input class="box" type="text" name="update_email" value="<?php echo $fetch["email"]; ?>">
-                    <!-- Champ de saisie pour l'email avec la valeur actuelle affichée -->
+                    <input class="box" type="text" name="update_email" value="<?php echo htmlspecialchars($userData['email'] ?? ''); ?>">
+                    
                     <label for="update_numrue">Numéro de rue</label>
-                    <input class="box" type="number" name="update_numrue" value="<?php echo $fetch["numrue"]; ?>">
-                    <!-- Champ de saisie pour le numéro de rue avec la valeur actuelle affichée -->
+                    <input class="box" type="number" name="update_numrue" value="<?php echo htmlspecialchars($userData['numrue'] ?? ''); ?>">
+                    
                     <label for="update_nomrue">Nom de la rue</label>
-                    <input class="box" type="text" name="update_nomrue" value="<?php echo $fetch["nomrue"]; ?>">
-                    <!-- Champ de saisie pour le nom de la rue avec la valeur actuelle affichée -->
+                    <input class="box" type="text" name="update_nomrue" value="<?php echo htmlspecialchars($userData['nomrue'] ?? ''); ?>">
+                    
                     <label for="update_ville">Ville</label>
-                    <input class="box" type="text" name="update_ville" value="<?php echo $fetch["ville"]; ?>">
-                    <!-- Champ de saisie pour la ville avec la valeur actuelle affichée -->
+                    <input class="box" type="text" name="update_ville" value="<?php echo htmlspecialchars($userData['ville'] ?? ''); ?>">
+                    
                     <label for="update_codepostal">Code Postal</label>
-                    <input class="box" type="text" name="update_codepostal" value="<?php echo $fetch["codepostal"]; ?>">
-                    <!-- Champ de saisie pour le code postal avec la valeur actuelle affichée -->
+                    <input class="box" type="text" name="update_codepostal" value="<?php echo htmlspecialchars($userData['codepostal'] ?? ''); ?>">
                 </div>
+                
                 <div class="inputBox">
-                    <input type="hidden" name="old_pass" value="<?php echo $fetch['password']; ?>">
-                    <!-- Champ caché pour stocker l'ancien mot de passe haché -->
+                    <input type="hidden" name="old_pass" value="<?php echo htmlspecialchars($userData['password'] ?? ''); ?>">
+                    
                     <label for="update_pass">Ancien Mot De Passe</label>
-                    <input class="box" type="password" name="update_pass"
-                        placeholder="Entrez votre ancien mot de passe">
-                    <!-- Champ de saisie pour l'ancien mot de passe -->
+                    <input class="box" type="password" name="update_pass" placeholder="Entrez votre ancien mot de passe">
+                    
                     <label for="new_pass">Nouveau Mot De Passe</label>
                     <input class="box" type="password" name="new_pass" placeholder="Entrez votre nouveau mot de passe">
-                    <!-- Champ de saisie pour le nouveau mot de passe -->
+                    
                     <label for="cnew_pass">Confirmer le Nouveau Mot De Passe</label>
-                    <input class="box" type="password" name="cnew_pass"
-                        placeholder="Confirmez votre nouveau mot de passe">
-                    <!-- Champ de saisie pour la confirmation du nouveau mot de passe -->
+                    <input class="box" type="password" name="cnew_pass" placeholder="Confirmez votre nouveau mot de passe">
                 </div>
             </div>
-            <input class="btn3" type="submit" value="Modifier votre compte" name="update_profil">
-            <!-- Bouton de soumission du formulaire de mise à jour du profil -->
+            
+            <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                <a href="profil.php" class="delete-btn" style="display: inline-block; padding: 10px 20px;">
+                    <i class="fas fa-arrow-left"></i> Retour au profil
+                </a>
+                <input class="btn3" type="submit" value="Modifier votre compte" name="update_profil">
+            </div>
         </form>
     </div>
 
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>TIME us</h3>
+                <p>Votre boutique en ligne pour tous vos besoins technologiques. Nous proposons une large gamme de
+                    produits de qualité à des prix compétitifs.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Liens Rapides</h3>
+                <ul class="footer-links">
+                    <li><a href="acceuil2.php">Accueil</a></li>
+                    <li><a href="profil.php">Mon profil</a></li>
+                    <li><a href="apropos.php">À propos</a></li>
+                    <li><a href="contact.php">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Nous Contacter</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-envelope"></i> contact@timeus.com</li>
+                    <li><i class="fas fa-phone"></i> +33 1 99 11 22 33</li>
+                    <li><i class="fas fa-map-marker-alt"></i> 25 Rue Dauphine, Paris</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; <?php echo date('Y'); ?> TIME us. Tous droits réservés. | Réalisé par CHERIEF Yacine-Samy
+        </div>
+    </footer>
 </body>
 
 </html>
 
 <?php
-// Fermeture de la connexion à la base de données
+
 mysqli_close($conn);
 ?>

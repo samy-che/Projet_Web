@@ -4,7 +4,7 @@ include 'connexion.php';
 
 // Paramètres de l'administrateur à créer
 $admin_email = 'admin@gmail.com'; // Modifiez selon vos besoins
-$admin_password = 'admin123'; // Modifiez selon vos besoins
+$admin_password = 'admin123'; // Modifiez selon vos besoin
 
 // Hachage du mot de passe avec password_hash
 $hashed_password = password_hash($admin_password, PASSWORD_DEFAULT);

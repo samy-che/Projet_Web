@@ -1,44 +1,44 @@
 <?php
 
-session_start(); // Démarre la session PHP
-if (!isset($_SESSION['admin_email'])) { // Vérifie si l'email de l'administrateur n'est pas défini dans la session
-    header("Location:connexion.php"); // Redirige vers la page de connexion
-    exit; // Arrête l'exécution du script après la redirection
+session_start(); 
+if (!isset($_SESSION['admin_email'])) { 
+    header("Location:connexion.php"); 
+    exit;
 }
-if (empty($_SESSION['admin_email'])) { // Vérifie si l'email de l'administrateur est vide dans la session
-    header("Location:connexion.php"); // Redirige vers la page de connexion
-    exit; // Arrête l'exécution du script après la redirection
+if (empty($_SESSION['admin_email'])) { 
+    header("Location:connexion.php"); 
+    exit;
 }
-if (!isset($_GET['pdt']) || empty($_GET['pdt']) || !is_numeric($_GET['pdt'])) { // Vérifie si le paramètre 'pdt' n'est pas défini dans l'URL, s'il est vide ou s'il n'est pas numérique
-    header("Location:admin.php"); // Redirige vers la page d'administration
-    exit; // Arrête l'exécution du script après la redirection
+if (!isset($_GET['pdt']) || empty($_GET['pdt']) || !is_numeric($_GET['pdt'])) { 
+    header("Location:admin.php"); 
+    exit;
 }
-$id = $_GET['pdt']; // Récupère l'ID du produit à modifier depuis l'URL
+$id = $_GET['pdt']; 
 
-include 'connexion.php'; // Inclut le fichier de connexion à la base de données
+include 'connexion.php'; 
 $admin_id = $_SESSION['admin_email'];
-$select_admin = mysqli_query($conn, "SELECT * FROM `admin` WHERE email = '$admin_id'") or die("Erreur de requête"); // Exécute une requête pour sélectionner l'administrateur par son email
-if (mysqli_num_rows($select_admin) > 0) { // Vérifie s'il y a des résultats retournés par la requête
-    $fetch_admin = mysqli_fetch_assoc($select_admin); // Récupère les données de l'administrateur sous forme de tableau associatif
+$select_admin = mysqli_query($conn, "SELECT * FROM `admin` WHERE email = '$admin_id'") or die("Erreur de requête"); 
+if (mysqli_num_rows($select_admin) > 0) { 
+    $fetch_admin = mysqli_fetch_assoc($select_admin); 
 }
 ;
 
-if (isset($_GET['logout'])) { // Vérifie si le paramètre 'logout' est présent dans l'URL
-    unset($fetch_admin['id']); // Supprime la clé 'id' des données de l'administrateur
-    session_destroy(); // Détruit toutes les données de session
-    header('Location:acceuil.php'); // Redirige vers la page d'accueil
+if (isset($_GET['logout'])) { 
+    unset($fetch_admin['id']); 
+    session_destroy(); 
+    header('Location:acceuil.php'); 
 }
 
-require("commande.php"); // Inclut le fichier de fonction 'commande.php'
-$produits = produit($id); // Appelle la fonction 'produit' pour récupérer les détails du produit à modifier
+require("commande.php"); 
+$produits = produit($id); 
 
-if ($produits) { // Vérifie si des détails de produit ont été récupérés avec succès
-    $idpdt = $produits[0]['id']; // Récupère l'ID du produit
-    $nom = $produits[0]['name']; // Récupère le nom du produit
-    $prix = $produits[0]['price']; // Récupère le prix du produit
-    $image = $produits[0]['image']; // Récupère le nom de l'image du produit
-    $description = $produits[0]['description']; // Récupère la description du produit
-    $stock = $produits[0]['quantity']; // Récupère la quantité en stock du produit
+if ($produits) { 
+    $idpdt = $produits[0]['id']; 
+    $nom = $produits[0]['name']; 
+    $prix = $produits[0]['price']; 
+    $image = $produits[0]['image']; 
+    $description = $produits[0]['description']; 
+    $stock = $produits[0]['quantity']; 
 }
 ?>
 
@@ -129,29 +129,28 @@ if ($produits) { // Vérifie si des détails de produit ont été récupérés a
 
 </html>
 <?php
-if (isset($_POST["Modifier"])) { // Vérifie si le formulaire de modification a été soumis
+if (isset($_POST["Modifier"])) { 
 
-    if (isset($_POST["image"]) && isset($_POST["prix"]) && isset($_POST["description"]) && isset($_POST["nom"]) && isset($_POST["stock"])) { // Vérifie si toutes les données nécessaires sont présentes dans le formulaire
+    if (isset($_POST["image"]) && isset($_POST["prix"]) && isset($_POST["description"]) && isset($_POST["nom"]) && isset($_POST["stock"])) { 
 
-        if (!empty($_POST["image"]) && !empty($_POST["prix"]) && !empty($_POST["description"]) && !empty($_POST["nom"]) && !empty($_POST["stock"])) { // Vérifie si aucun champ n'est vide dans le formulaire
+        if (!empty($_POST["image"]) && !empty($_POST["prix"]) && !empty($_POST["description"]) && !empty($_POST["nom"]) && !empty($_POST["stock"])) { 
 
-            $id = htmlspecialchars(strip_tags($_POST["id"])); // Récupère l'ID du produit à partir du formulaire
-            $image = htmlspecialchars(strip_tags($_POST["image"])); // Récupère le nom de l'image du produit à partir du formulaire
-            $prix = htmlspecialchars(strip_tags($_POST["prix"])); // Récupère le prix du produit à partir du formulaire
-            $description = htmlspecialchars(strip_tags($_POST["description"])); // Récupère la description du produit à partir du formulaire
-            $nom = htmlspecialchars(strip_tags($_POST["nom"])); // Récupère le nom du produit à partir du formulaire
-            $stock = htmlspecialchars(strip_tags($_POST["stock"])); // Récupère la quantité en stock du produit à partir du formulaire
+            $id = htmlspecialchars(strip_tags($_POST["id"])); 
+            $image = htmlspecialchars(strip_tags($_POST["image"])); 
+            $prix = htmlspecialchars(strip_tags($_POST["prix"])); 
+            $description = htmlspecialchars(strip_tags($_POST["description"])); 
+            $nom = htmlspecialchars(strip_tags($_POST["nom"])); 
+            $stock = htmlspecialchars(strip_tags($_POST["stock"])); 
 
-            modifier($nom, $image, $description, $prix, $stock, $id); // Appelle la fonction pour modifier le produit dans la base de données
-            header("Location: afficher.php"); // Redirige vers la page d'affichage des produits
+            modifier($nom, $image, $description, $prix, $stock, $id); 
+            header("Location: afficher.php"); 
 
-            exit; // Arrête l'exécution du script après la redirection
+            exit; 
         }
     }
 }
 ?>
 
 <?php
-// Fermeture de la connexion à la base de données
 mysqli_close($conn);
 ?>

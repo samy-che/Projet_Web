@@ -1,57 +1,55 @@
 <?php
-session_start(); // Démarrage de la session - doit être avant toute sortie HTML
+session_start(); 
 
-include 'connexion.php'; // Inclusion du fichier de connexion à la base de données
+include 'connexion.php'; 
 
-// Vérification si l'utilisateur est connecté
 if (!isset($_SESSION['user_id'])) {
-    header('location:../login.php'); // Redirection vers la page de connexion
+    header('location:../login.php'); 
     exit;
 }
 
-$user_id = $_SESSION['user_id']; // Récupération de l'ID de l'utilisateur depuis la session
+$user_id = $_SESSION['user_id']; 
 
-if (isset($_GET['logout'])) { // Vérification si la requête GET contient 'logout'
-    session_destroy(); // Destruction de la session
-    header('location:../acceuil.php'); // Redirection vers la page d'accueil
+if (isset($_GET['logout'])) { 
+    session_destroy(); 
+    header('location:../acceuil.php'); 
     exit;
 }
 ;
 
-if (isset($_POST['add_panier'])) { // Vérification si le formulaire d'ajout au panier a été soumis
-    $product_id = $_POST['product_id']; // Récupération de l'ID du produit depuis le formulaire
-    $product_name = $_POST['product_name']; // Récupération du nom du produit depuis le formulaire
-    $product_price = $_POST['product_price']; // Récupération du prix du produit depuis le formulaire
-    $product_image = $_POST['product_image']; // Récupération de l'image du produit depuis le formulaire
-    $product_quantity = $_POST['product_quantity']; // Récupération de la quantité du produit depuis le formulaire
+if (isset($_POST['add_panier'])) { 
+    $product_id = $_POST['product_id']; 
+    $product_name = $_POST['product_name']; 
+    $product_price = $_POST['product_price']; 
+    $product_image = $_POST['product_image']; 
+    $product_quantity = $_POST['product_quantity']; 
 
-    $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name' AND user_id = '$user_id'") or die('Erreur de requête'); // Requête pour vérifier si le produit est déjà dans le panier
+    $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE name = '$product_name' AND user_id = '$user_id'") or die('Erreur de requête'); 
 
-    // Vérification du stock avec une requête préparée
     $stmt_stock = $conn->prepare("SELECT * FROM `products` WHERE id = ?");
     $stmt_stock->bind_param("i", $product_id);
     $stmt_stock->execute();
     $select_stock = $stmt_stock->get_result();
     $fetch_stock = mysqli_fetch_assoc($select_stock);
 
-    if ($fetch_stock["quantity"] <= 0) { // Vérification si la quantité en stock
+    if ($fetch_stock["quantity"] <= 0) { 
         $message[] = 'Vous ne pouvez pas ajouter un produit en rupture de stock !';
     } else {
-        // Vérification si le produit est déjà dans le panier avec une requête préparée
+        
         $stmt_cart = $conn->prepare("SELECT * FROM `cart` WHERE name = ? AND user_id = ?");
         $stmt_cart->bind_param("si", $product_name, $user_id);
         $stmt_cart->execute();
         $select_cart = $stmt_cart->get_result();
 
-        if (mysqli_num_rows($select_cart) > 0) { // Vérification si le produit est déjà dans le panier
-            $message[] = 'Le produit a déjà été ajouté dans le panier !'; // Message d'erreur
+        if (mysqli_num_rows($select_cart) > 0) { 
+            $message[] = 'Le produit a déjà été ajouté dans le panier !'; 
         } else {
-            // Insertion du produit dans le panier avec une requête préparée
+            
             $stmt_insert = $conn->prepare("INSERT INTO `cart`(user_id, product_id, name, price, image, quantity) VALUES(?, ?, ?, ?, ?, ?)");
             $stmt_insert->bind_param("iisdsi", $user_id, $product_id, $product_name, $product_price, $product_image, $product_quantity);
             $stmt_insert->execute();
 
-            $message[] = 'Le produit a été ajouté dans le panier'; // Message de succès
+            $message[] = 'Le produit a été ajouté dans le panier'; 
         }
     }
 
@@ -62,25 +60,23 @@ if (isset($_POST['add_panier'])) { // Vérification si le formulaire d'ajout au 
 
 <?php
 
-if (isset($message)) { // Vérification si des messages sont présents
-    foreach ($message as $message) { // Parcours de chaque message
-        echo '<div class="message" onclick="this.remove();">' . $message . '</div>'; // Affichage des messages
+if (isset($message)) { 
+    foreach ($message as $message) { 
+        echo '<div class="message" onclick="this.remove();">' . $message . '</div>'; 
     }
 }
 
 ?>
 
 <?php
-// Utilisation d'une requête préparée pour récupérer les informations de l'utilisateur
 $stmt = $conn->prepare("SELECT * FROM `user_form` WHERE ID = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $select_user = $stmt->get_result();
 
-if (mysqli_num_rows($select_user) > 0) { // Vérification si l'utilisateur existe
-    $fetch_user = mysqli_fetch_assoc($select_user); // Récupération des données de l'utilisateur
+if (mysqli_num_rows($select_user) > 0) {
+    $fetch_user = mysqli_fetch_assoc($select_user);
 } else {
-    // Si l'utilisateur n'existe pas dans la base de données malgré la session
     session_destroy();
     header('location:../login.php');
     exit;
@@ -98,6 +94,8 @@ if (mysqli_num_rows($select_user) > 0) { // Vérification si l'utilisateur exist
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" type="text/css" href="../styles/style.css?v=<?php echo time(); ?>">
+    <!-- Ajout du style spécifique à la page d'accueil -->
+    <link rel="stylesheet" type="text/css" href="../styles/acceuil2-style.css?v=<?php echo time(); ?>">
     <link rel="icon" href="../img/logo.png" type="image/x-icon">
     <title>Time us - Votre Boutique Tech</title>
 </head>
@@ -105,91 +103,107 @@ if (mysqli_num_rows($select_user) > 0) { // Vérification si l'utilisateur exist
 <body>
 
     <div class="promo animate__animated animate__fadeIn">
-        <span>🎉 Offre Spéciale : 15% de réduction avec le code DAUPHINE15 🎉</span>
+        <span><i class='bx bx-gift'></i> Offre Spéciale : 15% de réduction avec le code DAUPHINE15 <i class='bx bx-gift'></i></span>
     </div>
 
     <header class="header">
         <nav class="nav container">
-            <div class="navigation d-flex">
-                <div class="logo">
-                    <a href="#"><span>Time</span> us</a>
+            <div class="navigation flex-container">
+                <div class="logo-container">
+                    <a href="#" class="brand-logo"><span class="highlight">Time</span>us</a>
                 </div>
-                <div class="menu">
-                    <ul class="nav-list d-flex">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link active">Accueil</a>
+                <div class="main-menu">
+                    <ul class="menu-items">
+                        <li class="menu-link">
+                            <a href="#" class="active"><i class='bx bx-home'></i> Accueil</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#products" class="nav-link">Boutique</a>
+                        <li class="menu-link">
+                            <a href="#products"><i class='bx bx-store'></i> Boutique</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="apropos.php" class="nav-link">À propos</a>
+                        <li class="menu-link">
+                            <a href="apropos.php"><i class='bx bx-info-circle'></i> À propos</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="contact.php" class="nav-link" target='_BLANK'>Contact</a>
+                        <li class="menu-link">
+                            <a href="contact.php"><i class='bx bx-envelope'></i> Contact</a>
                         </li>
                     </ul>
                 </div>
-                <div class="icons d-flex">
-                    <div class="username"><a href="profil.php"><?php echo $fetch_user['name']; ?></a></div>
-                    <div>
-                        <a href="panier.php"><i class='bx bx-shopping-bag' aria-label="Panier d'achat"></i></a>
+                <div class="user-actions">
+                    <div class="action-icon">
+                        <a href="profil.php" title="Mon profil">
+                            <i class='bx bx-user'></i>
+                            <span class="icon-label"><?php echo $fetch_user['name']; ?></span>
+                        </a>
                     </div>
-                    <div>
-                        <a href="historique.php"><i class='bx bxs-book-content' aria-label="Historique des commandes"></i></a>
+                    <div class="action-icon">
+                        <a href="panier.php" title="Mon panier">
+                            <i class='bx bx-cart'></i>
+                            <?php
+                            $select_rows = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('Erreur de requête');
+                            $row_count = mysqli_num_rows($select_rows);
+                            echo "<span class='cart-count'>$row_count</span>";
+                            ?>
+                        </a>
                     </div>
-                    <div>
-                        <a class="delete-btn" href="../acceuil.php?logout=<?php echo $user_id; ?>"
-                            onclick="return confirm('Es-tu sûr de te déconnecter ?');">Déconnexion</a>
+                    <div class="action-icon">
+                        <a href="historique.php" title="Historique des commandes">
+                            <i class='bx bx-history'></i>
+                        </a>
+                    </div>
+                    <div class="action-icon">
+                        <a class="logout-btn" href="../acceuil.php?logout=<?php echo $user_id; ?>"
+                            onclick="return confirm('Es-tu sûr de te déconnecter ?');">
+                            <i class='bx bx-log-out'></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </nav>
 
-        <div class="banniere">
-            <div class="banniere-contenu d-flex container">
-                <div class="gauche animate__animated animate__fadeInLeft">
-                    <span class="Sous-titre">Découvrez notre Nouvelle Collection</span>
-                    <h1 class="titre">
-                        Équipez-vous avec
-                        <span class="couleur">15%<br>
-                            de réduction</span>
-                        sur notre sélection premium
+        <div class="hero-section">
+            <div class="hero-content container">
+                <div class="hero-text animate__animated animate__fadeInLeft">
+                    <span class="tagline">Technologie Premium à Prix Imbattables</span>
+                    <h1 class="headline">
+                        Transformez votre <span class="accent">expérience</span> tech
+                        <span class="discount-badge">15% OFF</span>
                     </h1>
-                    <h5>Offre valable jusqu'au 21 juin 2025</h5>
-                    <a href="#products" class="btn animate__animated animate__pulse">Explorer la
-                        Collection</a>
+                    <p class="hero-description">Découvrez notre sélection exclusive d'équipements high-tech soigneusement sélectionnés pour les passionnés.</p>
+                    <p class="promo-period">Offre spéciale valable jusqu'au 21 juin 2025</p>
+                    <a href="#products" class="cta-button animate__animated animate__pulse">Découvrir la Collection <i class='bx bx-right-arrow-alt'></i></a>
                 </div>
-                <div class="droite animate__animated animate__fadeInRight">
-                    <img src="../img/setup.png" alt="Setup gaming premium" class="hero-image">
+                <div class="hero-visual animate__animated animate__fadeInRight">
+                    <div class="image-wrapper">
+                        <img src="../img/setup.png" alt="Setup gaming premium" class="featured-image">
+                        <div class="image-overlay"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <section id="products" class="products">
-        <h1 class="title animate__animated animate__fadeIn">Notre Sélection Premium</h1>
-        <div class="box-container">
+    <section id="products" class="product-showcase">
+        <h1 class="section-title animate__animated animate__fadeIn">Découvrez Notre Collection Elite</h1>
+        <div class="product-grid">
 
             <?php
-            // Utilisation d'une requête préparée pour récupérer tous les produits
             $stmt_product = $conn->prepare("SELECT * FROM `products`");
             $stmt_product->execute();
             $select_product = $stmt_product->get_result();
 
-            if (mysqli_num_rows($select_product) > 0) { // Vérification si des produits sont présents
-                while ($fetch_product = mysqli_fetch_assoc($select_product)) { // Parcours des produits
+            if (mysqli_num_rows($select_product) > 0) {
+                while ($fetch_product = mysqli_fetch_assoc($select_product)) {
                     ?>
-                    <div class="boite animate__animated animate__fadeInUp">
-                        <form class="box" action="" method="POST">
+                    <div class="product-card animate__animated animate__fadeInUp">
+                        <form class="product-form" action="" method="POST">
                             <a href="page.php?id=<?php echo $fetch_product['id']; ?>" class="product-link">
                                 <div class="product-image">
                                     <img src="../img/products/<?php echo $fetch_product['image']; ?>"
                                         alt="<?php echo $fetch_product['name']; ?>">
                                 </div>
                                 <div class="product-info">
-                                    <div class="name"><?php echo $fetch_product['name']; ?></div>
-                                    <div class="price"><?php echo $fetch_product['price']; ?>€</div>
+                                    <h3 class="name"><?php echo $fetch_product['name']; ?></h3>
+                                    <div class="price"><?php echo $fetch_product['price']; ?> €</div>
                                     <div class="description">
                                         <ul>
                                             <?php
@@ -219,7 +233,7 @@ if (mysqli_num_rows($select_user) > 0) { // Vérification si l'utilisateur exist
                             <input type="hidden" name="product_id" value="<?php echo $fetch_product['id']; ?>">
                             <input type="hidden" name="product_name" value="<?php echo $fetch_product['name']; ?>">
                             <input type="hidden" name="product_price" value="<?php echo $fetch_product['price']; ?>">
-                            <button type="submit" name="add_panier" class="btn2">
+                            <button type="submit" name="add_panier" class="add-to-cart-btn">
                                 <i class='bx bx-cart-add'></i> Ajouter au Panier
                             </button>
                         </form>
@@ -275,6 +289,5 @@ if (mysqli_num_rows($select_user) > 0) { // Vérification si l'utilisateur exist
 </html>
 
 <?php
-// Fermeture de la connexion à la base de données
 mysqli_close($conn);
 ?>

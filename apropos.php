@@ -210,12 +210,17 @@
             </div>
         </section>
 
+        <!-- Section des valeurs de l'entreprise -->
+        <!-- Cette section présente les quatre valeurs fondamentales l'entreprise -->
         <section class="values-section container">
+            <!-- Titre de la section -->
             <div class="title">
                 <h2>Nos Valeurs</h2>
             </div>
 
+            <!-- Conteneur des cartes de valeurs -->
             <div class="values-content">
+                <!-- Utilisation de l'icône bx-medallence -->
                 <div class="value">
                     <i class='bx bx-medal'></i>
                     <h3>Excellence</h3>
@@ -223,6 +228,7 @@
                     </p>
                 </div>
 
+                <!-- Utilisation de l'icône bx-check-shield -->
                 <div class="value">
                     <i class='bx bx-check-shield'></i>
                     <h3>Authenticité</h3>

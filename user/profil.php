@@ -1,56 +1,44 @@
 <?php
-// Inclusion du fichier de connexion et démarrage de la session
 include 'connexion.php';
 session_start();
 
-// Vérification si l'utilisateur est connecté
 if (!isset($_SESSION['user_id'])) {
     header('location:../login.php');
     exit();
 }
 
-// Récupération de l'identifiant de l'utilisateur depuis la session
 $user_id = $_SESSION['user_id'];
 
-// Vérification si l'utilisateur demande à se déconnecter
 if (isset($_GET['logout'])) {
-    // Suppression de l'identifiant de l'utilisateur et destruction de la session
     unset($user_id);
     session_destroy();
-    // Redirection vers la page d'accueil
+    unset($user_id);
+    session_destroy();
     header('location:../acceuil.php');
     exit();
 }
 
-// Sécurisation de l'ID utilisateur pour éviter les injections SQL
 $user_id = mysqli_real_escape_string($conn, $user_id);
 
-// Sélection des informations de l'utilisateur connecté
 $select = mysqli_query($conn, "SELECT * FROM `user_form` WHERE id = '$user_id'");
 if (!$select) {
     die("Erreur lors de la récupération des données utilisateur: " . mysqli_error($conn));
 }
 
-// Vérification si l'utilisateur existe
 if (mysqli_num_rows($select) == 0) {
-    // L'utilisateur n'existe pas dans la base de données
     session_destroy();
     header('location:../login.php');
     exit();
 }
 
-// Récupération des données de l'utilisateur
 $fetch = mysqli_fetch_assoc($select);
 
-// Traitement de la demande de suppression de compte
 if (isset($_GET['delete_account'])) {
-    // Suppression du compte de l'utilisateur
     $delete = mysqli_query($conn, "DELETE FROM `user_form` WHERE id = '$user_id'");
     if (!$delete) {
         die("Erreur lors de la suppression du compte: " . mysqli_error($conn));
     }
 
-    // Destruction de la session et redirection
     session_destroy();
     header('location:../acceuil.php');
     exit();
@@ -261,6 +249,6 @@ if (isset($_GET['delete_account'])) {
 </html>
 
 <?php
-// Fermeture de la connexion à la base de données
+
 mysqli_close($conn);
 ?>

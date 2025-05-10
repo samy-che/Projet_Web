@@ -1,5 +1,5 @@
 <?php
-session_start(); // démarrage de la session
+session_start();
 
 include 'connexion.php'; // 
 ?>
@@ -13,70 +13,76 @@ include 'connexion.php'; //
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" type="text/css" href="styles/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="styles/accueil-style.css">
     <link rel="icon" href="img/logo.png" type="image/x-icon">
     <title>Time us - Votre Boutique Tech</title>
 </head>
 
 <body>
     <div class="promo animate__animated animate__fadeIn">
-        <span>🎉 Offre Spéciale : 15% de réduction avec le code DAUPHINE15 🎉</span>
+        <span><i class='bx bx-gift'></i> Offre Spéciale : 15% de réduction avec le code DAUPHINE15 <i
+                class='bx bx-gift'></i></span>
     </div>
 
     <header class="header">
         <nav class="nav container">
-            <div class="navigation d-flex">
-                <div class="logo">
-                    <a href="#"><span>Time</span> us</a>
+            <div class="navigation flex-container">
+                <div class="logo-container">
+                    <a href="#" class="brand-logo"><span class="highlight">Time</span>us</a>
                 </div>
-                <div class="menu">
-                    <ul class="nav-list d-flex">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link active">Accueil</a>
+                <div class="main-menu">
+                    <ul class="menu-items">
+                        <li class="menu-link">
+                            <a href="#" class="active"><i class='bx bx-home'></i> Accueil</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#products" class="nav-link">Boutique</a>
+                        <li class="menu-link">
+                            <a href="#products"><i class='bx bx-store'></i> Boutique</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="apropos.php" class="nav-link">À propos</a>
+                        <li class="menu-link">
+                            <a href="apropos.php"><i class='bx bx-info-circle'></i> À propos</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="contact.php" class="nav-link" target="_blank" rel="noopener noreferrer">Contact</a>
+                        <li class="menu-link">
+                            <a href="contact.php"><i class='bx bx-envelope'></i> Contact</a>
                         </li>
                     </ul>
                 </div>
-                <div class="icons d-flex">
-                    <div><a href="login.php"><i class='bx bx-user' aria-label="Connexion utilisateur"></i></a></div>
-                    <div>
+                <div class="user-actions">
+                    <div class="action-icon"><a href="login.php"><i class='bx bx-user'
+                                aria-label="Connexion utilisateur"></i></a></div>
+                    <div class="action-icon">
                         <i class='bx bx-shopping-bag' aria-label="Panier d'achat"></i>
                     </div>
                 </div>
             </div>
         </nav>
 
-        <div class="banniere">
-            <div class="banniere-contenu d-flex container">
-                <div class="gauche animate__animated animate__fadeInLeft">
-                    <span class="Sous-titre">Découvrez notre Nouvelle Collection</span>
-                    <h1 class="titre">
-                        Équipez-vous avec
-                        <span class="couleur">15%<br>
-                            de réduction</span>
-                        sur notre sélection premium
+        <div class="hero-section">
+            <div class="hero-content container">
+                <div class="hero-text animate__animated animate__fadeInLeft">
+                    <span class="tagline">Technologie Premium à Prix Imbattables</span>
+                    <h1 class="headline">
+                        Transformez votre <span class="accent">expérience</span> tech
+                        <span class="discount-badge">15% OFF</span>
                     </h1>
-                    <h5>Offre valable jusqu'au 21 juin 2025</h5>
-                    <a href="#products" class="btn animate__animated animate__pulse">Explorer la
-                        Collection</a>
+                    <p class="hero-description">Découvrez notre sélection exclusive d'équipements high-tech
+                        soigneusement sélectionnés pour les passionnés.</p>
+                    <p class="promo-period">Offre spéciale valable jusqu'au 21 juin 2025</p>
+                    <a href="#products" class="cta-button animate__animated animate__pulse">Découvrir la Collection <i
+                            class='bx bx-right-arrow-alt'></i></a>
                 </div>
-                <div class="droite animate__animated animate__fadeInRight">
-                    <img src="img/setup.png" alt="Setup gaming premium" class="hero-image">
+                <div class="hero-visual animate__animated animate__fadeInRight">
+                    <div class="image-wrapper">
+                        <img src="img/setup.png" alt="Setup gaming premium" class="featured-image">
+                        <div class="image-overlay"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <section id="products" class="products">
-        <h1 class="title animate__animated animate__fadeIn">Notre Sélection Premium</h1>
-        <div class="box-container">
+    <section id="products" class="product-showcase">
+        <h1 class="section-title animate__animated animate__fadeIn">Découvrez Notre Collection Elite</h1>
+        <div class="product-grid">
             <?php
             $stmt = mysqli_prepare($conn, "SELECT * FROM `products`");
             mysqli_stmt_execute($stmt);
@@ -84,8 +90,8 @@ include 'connexion.php'; //
             if (mysqli_num_rows($select_product) > 0) {
                 while ($fetch_product = mysqli_fetch_assoc($select_product)) {
                     ?>
-                    <div class="boite animate__animated animate__fadeInUp">
-                        <form class="box" action="" method="POST">
+                    <div class="product-card animate__animated animate__fadeInUp">
+                        <form class="product-form" action="" method="POST">
                             <a href="page.php?id=<?php echo $fetch_product['id']; ?>" class="product-link">
                                 <div class="product-image">
                                     <img src="img/products/<?php echo $fetch_product['image']; ?>"
@@ -122,7 +128,7 @@ include 'connexion.php'; //
                             <input type="hidden" name="product_image" value="<?php echo $fetch_product['image']; ?>">
                             <input type="hidden" name="product_name" value="<?php echo $fetch_product['name']; ?>">
                             <input type="hidden" name="product_price" value="<?php echo $fetch_product['price']; ?>">
-                            <button type="submit" name="add_panier" class="btn2">
+                            <button type="submit" name="add_panier" class="add-to-cart-btn">
                                 <i class='bx bx-cart-add'></i> Ajouter au Panier
                             </button>
                         </form>
@@ -172,20 +178,42 @@ include 'connexion.php'; //
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Vérification de la page actuelle
             if (window.location.pathname.includes('acceuil.php')) {
-                const messageConnexion = "Veuillez vous connecter pour accéder à cette fonctionnalité.";
-                const afficherAlerte = function () {
-                    alert(messageConnexion);
+                // Message personnalisé avec notification stylée
+                const notifierUtilisateur = function () {
+                    // Création d'une notification stylée au lieu d'une simple alerte
+                    const notification = document.createElement('div');
+                    notification.className = 'notification';
+                    notification.innerHTML = '<i class="bx bx-lock"></i> Veuillez vous connecter pour accéder à cette fonctionnalité.';
+                    document.body.appendChild(notification);
+
+                    // Animation de la notification
+                    setTimeout(() => {
+                        notification.classList.add('show');
+                    }, 10);
+
+                    // Suppression après 3 secondes
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                        setTimeout(() => {
+                            document.body.removeChild(notification);
+                        }, 300);
+                    }, 3000);
                 };
 
+                // Attachement des événements
                 const boutonPanier = document.querySelector(".bx-shopping-bag");
                 if (boutonPanier) {
-                    boutonPanier.addEventListener('click', afficherAlerte);
+                    boutonPanier.addEventListener('click', notifierUtilisateur);
                 }
 
-                const boutonsAjout = document.querySelectorAll(".btn2");
+                const boutonsAjout = document.querySelectorAll(".add-to-cart-btn");
                 boutonsAjout.forEach(function (bouton) {
-                    bouton.addEventListener('click', afficherAlerte);
+                    bouton.addEventListener('click', function (e) {
+                        e.preventDefault(); // Empêche la soumission du formulaire
+                        notifierUtilisateur();
+                    });
                 });
             }
         });

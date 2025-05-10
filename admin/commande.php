@@ -3,100 +3,100 @@
 
 function ajouter($nom, $image, $desc, $prix, $stock)
 {
-    include("connexion.php"); // Inclut le fichier de connexion à la base de données
-    if ($conn) { // Vérifie si la connexion à la base de données est établie avec succès
-        $stmt = $conn->prepare("INSERT INTO products (name, price, description, image, quantity) VALUES (?, ?, ?, ?, ?)"); // Prépare une instruction SQL pour l'ajout d'un produit
-        $stmt->bind_param('sssss', $nom, $prix, $desc, $image, $stock); // Lie les paramètres à l'instruction SQL préparée
-        $stmt->execute(); // Exécute la requête préparée
-        $stmt->close(); // Ferme l'instruction préparée
-        $conn->close(); // Ferme la connexion à la base de données
+    include("connexion.php"); 
+    if ($conn) { 
+        $stmt = $conn->prepare("INSERT INTO products (name, price, description, image, quantity) VALUES (?, ?, ?, ?, ?)"); 
+        $stmt->bind_param('sssss', $nom, $prix, $desc, $image, $stock); 
+        $stmt->execute(); 
+        $stmt->close(); 
+        $conn->close(); 
     }
 }
 
 function afficher()
 {
-    include("connexion.php"); // Inclut le fichier de connexion à la base de données
-    $donnees = array(); // Initialise un tableau vide pour stocker les données des produits
-    if ($conn) { // Vérifie si la connexion à la base de données est établie avec succès
-        $result = $conn->query("SELECT * FROM products ORDER BY id DESC"); // Exécute une requête pour sélectionner tous les produits
-        if ($result->num_rows > 0) { // Vérifie s'il y a des lignes retournées par la requête
-            while ($row = $result->fetch_assoc()) { // Boucle à travers les résultats de la requête
-                $donnees[] = $row; // Ajoute chaque ligne de résultat au tableau de données
+    include("connexion.php"); 
+    $donnees = array(); 
+    if ($conn) { 
+        $result = $conn->query("SELECT * FROM products ORDER BY id DESC"); 
+        if ($result->num_rows > 0) { 
+            while ($row = $result->fetch_assoc()) { 
+                $donnees[] = $row; 
             }
         }
-        $conn->close(); // Ferme la connexion à la base de données
+        $conn->close(); 
     }
-    return $donnees; // Retourne le tableau de données des produits
+    return $donnees;
 }
 
 function supprimer($id)
 {
-    include("connexion.php"); // Inclut le fichier de connexion à la base de données
-    if ($conn) { // Vérifie si la connexion à la base de données est établie avec succès
-        $stmt = $conn->prepare("DELETE FROM products WHERE id=?"); // Prépare une instruction SQL pour supprimer un produit
-        $stmt->bind_param('i', $id); // Lie le paramètre à l'instruction SQL préparée
-        $stmt->execute(); // Exécute la requête préparée
-        $stmt->close(); // Ferme l'instruction préparée
-        $conn->close(); // Ferme la connexion à la base de données
+    include("connexion.php"); 
+    if ($conn) { 
+        $stmt = $conn->prepare("DELETE FROM products WHERE id=?"); 
+        $stmt->bind_param('i', $id); 
+        $stmt->execute(); 
+        $stmt->close(); 
+        $conn->close(); 
     }
 }
 
 function Admin($email, $mdp)
 {
-    include("connexion.php"); // Inclut le fichier de connexion à la base de données
-    if ($conn) { // Vérifie si la connexion à la base de données est établie avec succès
-        $stmt = $conn->prepare("SELECT * FROM admin WHERE email=?"); // Prépare une instruction SQL pour sélectionner un administrateur par son email
-        $stmt->bind_param('s', $email); // Lie le paramètre à l'instruction SQL préparée
-        $stmt->execute(); // Exécute la requête préparée
-        $result = $stmt->get_result(); // Récupère le résultat de la requête
-        if ($result->num_rows == 1) { // Vérifie s'il y a exactement une ligne retournée par la requête
-            $donnee = $result->fetch_assoc(); // Récupère les données de l'administrateur sous forme de tableau associatif
-            if (password_verify($mdp, $donnee['mdp'])) { // Vérifie si le mot de passe correspond au hachage
-                $stmt->close(); // Ferme l'instruction préparée
-                $conn->close(); // Ferme la connexion à la base de données
-                return $donnee; // Retourne les données de l'administrateur
+    include("connexion.php"); 
+    if ($conn) { 
+        $stmt = $conn->prepare("SELECT * FROM admin WHERE email=?"); 
+        $stmt->bind_param('s', $email); 
+        $stmt->execute(); 
+        $result = $stmt->get_result(); 
+        if ($result->num_rows == 1) { 
+            $donnee = $result->fetch_assoc(); 
+            if (password_verify($mdp, $donnee['mdp'])) { 
+                $stmt->close(); 
+                $conn->close(); 
+                return $donnee;
             } else {
-                $stmt->close(); // Ferme l'instruction préparée
-                $conn->close(); // Ferme la connexion à la base de données
-                return false; // Retourne false si le mot de passe ne correspond pas
+                $stmt->close(); 
+                $conn->close(); 
+                return false; 
             }
         } else {
-            $stmt->close(); // Ferme l'instruction préparée
-            $conn->close(); // Ferme la connexion à la base de données
-            return false; // Retourne false s'il n'y a pas de correspondance d'administrateur
+            $stmt->close(); 
+            $conn->close(); 
+            return false; 
         }
     }
 }
 
 function produit($id)
 {
-    include("connexion.php"); // Inclut le fichier de connexion à la base de données
-    if ($conn) { // Vérifie si la connexion à la base de données est établie avec succès
-        $donnees = array(); // Initialise un tableau vide pour stocker les données du produit
-        $stmt = $conn->prepare("SELECT * FROM `products` WHERE id=?"); // Prépare une instruction SQL pour sélectionner un produit par son ID
-        $stmt->bind_param('i', $id); // Lie le paramètre à l'instruction SQL préparée
-        $stmt->execute(); // Exécute la requête préparée
-        $result = $stmt->get_result(); // Récupère le résultat de la requête
-        if ($result->num_rows == 1) { // Vérifie s'il y a exactement une ligne retournée par la requête
-            while ($row = $result->fetch_assoc()) { // Boucle à travers les résultats de la requête
-                $donnees[] = $row; // Ajoute chaque ligne de résultat au tableau de données
+    include("connexion.php"); 
+    if ($conn) { 
+        $donnees = array(); 
+        $stmt = $conn->prepare("SELECT * FROM `products` WHERE id=?"); 
+        $stmt->bind_param('i', $id); 
+        $stmt->execute(); 
+        $result = $stmt->get_result(); 
+        if ($result->num_rows == 1) { 
+            while ($row = $result->fetch_assoc()) { 
+                $donnees[] = $row; 
             }
         }
-        $stmt->close(); // Ferme l'instruction préparée
-        $conn->close(); // Ferme la connexion à la base de données
-        return $donnees; // Retourne le tableau de données du produit
+        $stmt->close(); 
+        $conn->close(); 
+        return $donnees; 
     }
 }
 
 function modifier($nom, $image, $desc, $prix, $stock, $id)
 {
-    include("connexion.php"); // Inclut le fichier de connexion à la base de données
-    if ($conn) { // Vérifie si la connexion à la base de données est établie avec succès
-        $stmt = $conn->prepare("UPDATE products SET name=?, price=?, description=?, image=?, quantity=? WHERE id=?"); // Prépare une instruction SQL pour modifier un produit
-        $stmt->bind_param('sssssi', $nom, $prix, $desc, $image, $stock, $id); // Lie les paramètres à l'instruction SQL préparée
-        $stmt->execute(); // Exécute la requête préparée
-        $stmt->close(); // Ferme l'instruction préparée
-        $conn->close(); // Ferme la connexion à la base de données
+    include("connexion.php"); 
+    if ($conn) { 
+        $stmt = $conn->prepare("UPDATE products SET name=?, price=?, description=?, image=?, quantity=? WHERE id=?"); 
+        $stmt->bind_param('sssssi', $nom, $prix, $desc, $image, $stock, $id); 
+        $stmt->execute(); 
+        $stmt->close(); 
+        $conn->close(); 
     }
 }
 

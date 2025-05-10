@@ -1,29 +1,26 @@
 <?php
 
-// Inclusion du fichier de connexion et démarrage de la session
+
 include 'connexion.php';
 session_start();
 
-// Récupération de l'identifiant de l'utilisateur depuis la session
 $user_id = $_SESSION['user_id'];
 
-// Vérification si l'utilisateur demande à se déconnecter
+
 if (isset($_GET['logout'])) {
-    // Destruction de la session
     session_destroy();
-    // Redirection vers la page d'accueil
     header('location:../acceuil.php');
     exit;
 }
 
-// Sélection des informations de l'utilisateur connecté avec une requête préparée
+
 $stmt = $conn->prepare("SELECT * FROM `user_form` WHERE ID = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $select_user = $stmt->get_result();
 
 if (mysqli_num_rows($select_user) > 0) {
-    // Récupération des données de l'utilisateur
+
     $fetch_user = mysqli_fetch_assoc($select_user);
 }
 
@@ -85,7 +82,7 @@ if (mysqli_num_rows($select_user) > 0) {
                     </div>
                     <div>
                         <a href="panier.php"><i class='bx bx-shopping-bag'></i></a>
-                        <!-- <span class = "align-center">0</span> -->
+
                     </div>
                     <div>
                         <a class="delete-btn" href="../acceuil.php?logout=<?php echo $user_id; ?>"
@@ -132,6 +129,6 @@ if (mysqli_num_rows($select_user) > 0) {
 </html>
 
 <?php
-// Fermeture de la connexion à la base de données
+
 mysqli_close($conn);
 ?>

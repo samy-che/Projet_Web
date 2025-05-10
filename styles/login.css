@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
 
 :root{
-   --blue:#7F5056;
+   --marron:#7F5056;
    --red:#e74c3c;
    --black:#333;
    --white:#fff;
@@ -55,7 +55,7 @@ body{
 }
 
 .logo a span{
-   color: var(--blue);
+   color: var(--marron);
 }
 
 .logo a:hover{
@@ -120,7 +120,7 @@ body{
 .option-btn{
    display: inline-block;
    border-radius: 5rem;
-   background-color: var(--blue);
+   background-color: var(--marron);
    padding: 10px 30px;
    color: var(--white);
    font-weight: 600;
@@ -136,7 +136,7 @@ body{
 }
 
 .btn{
-   background-color: var(--blue);
+   background-color: var(--marron);
    margin-top: 10px;
 }
 
